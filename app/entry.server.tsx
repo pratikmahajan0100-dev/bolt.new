@@ -1,8 +1,8 @@
 import type { AppLoadContext, EntryContext } from '@remix-run/cloudflare';
 import { RemixServer } from '@remix-run/react';
 import { isbot } from 'isbot';
-import * as ReactDOMServer from 'react-dom/server';
-const { renderToReadableStream } = ReactDOMServer;
+import pkg from 'react-dom/server';
+const { renderToReadableStream } = pkg;
 import { renderHeadToString } from 'remix-island';
 import { Head } from './root';
 import { themeStore } from '~/lib/stores/theme';
@@ -14,13 +14,16 @@ export default async function handleRequest(
   remixContext: EntryContext,
   _loadContext: AppLoadContext,
 ) {
-  const readable = await renderToReadableStream(<RemixServer context={remixContext} url={request.url} />, {
-    signal: request.signal,
-    onError(error: unknown) {
-      console.error(error);
-      responseStatusCode = 500;
-    },
-  });
+  const readable = await renderToReadableStream(
+    <RemixServer context={remixContext} url={request.url} />,
+    {
+      signal: request.signal,
+      onError(error: unknown) {
+        console.error(error);
+        responseStatusCode = 500;
+      },
+    }
+  );
 
   const body = new ReadableStream({
     start(controller) {
@@ -43,7 +46,6 @@ export default async function handleRequest(
             if (done) {
               controller.enqueue(new Uint8Array(new TextEncoder().encode(`</div></body></html>`)));
               controller.close();
-
               return;
             }
 
@@ -68,7 +70,6 @@ export default async function handleRequest(
   }
 
   responseHeaders.set('Content-Type', 'text/html');
-
   responseHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
   responseHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
 
