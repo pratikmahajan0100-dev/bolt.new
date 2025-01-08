@@ -600,7 +600,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
             <div className="flex flex-col justify-center gap-5">
               {!chatStarted && (
                 <div className="flex justify-center gap-2">
-                  {ImportButtons(importChat)}
+                  {ImportButtons(importChat, sendMessage)}
                   <GitCloneButton importChat={importChat} />
                 </div>
               )}
@@ -624,3 +624,4 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
     return <Tooltip.Provider delayDuration={200}>{baseChat}</Tooltip.Provider>;
   },
 );
+
