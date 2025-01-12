@@ -5,9 +5,11 @@ import { type ChatHistoryItem } from '~/lib/persistence';
 interface HistoryItemProps {
   item: ChatHistoryItem;
   onDelete?: (event: React.UIEvent) => void;
+  onRename?: (event: React.UIEvent) => void;
+  onExport?: (event: React.UIEvent) => void;
 }
 
-export function HistoryItem({ item, onDelete }: HistoryItemProps) {
+export function HistoryItem({ item, onDelete, onRename, onExport }: HistoryItemProps) {
   const [hovering, setHovering] = useState(false);
   const hoverRef = useRef<HTMLDivElement>(null);
 
@@ -16,7 +18,6 @@ export function HistoryItem({ item, onDelete }: HistoryItemProps) {
 
     function mouseEnter() {
       setHovering(true);
-
       if (timeout) {
         clearTimeout(timeout);
       }
@@ -42,17 +43,33 @@ export function HistoryItem({ item, onDelete }: HistoryItemProps) {
     >
       <a href={`/chat/${item.urlId}`} className="flex w-full relative truncate block">
         {item.description}
-        <div className="absolute right-0 z-1 top-0 bottom-0 bg-gradient-to-l from-bolt-elements-background-depth-2 group-hover:from-bolt-elements-background-depth-3 to-transparent w-10 flex justify-end group-hover:w-15 group-hover:from-45%">
+        <div className="absolute right-0 z-1 top-0 bottom-0 bg-gradient-to-l from-bolt-elements-background-depth-2 group-hover:from-bolt-elements-background-depth-3 to-transparent w-10 flex justify-end group-hover:w-32 group-hover:from-45%">
           {hovering && (
-            <div className="flex items-center p-1 text-bolt-elements-textSecondary hover:text-bolt-elements-item-contentDanger">
+            <div className="flex items-center gap-1 p-1 text-bolt-elements-textSecondary">
+              <button
+                className="i-ph:pencil-simple scale-110 hover:text-bolt-elements-textPrimary"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onRename?.(event);
+                }}
+                title="Rename"
+              />
+              <button
+                className="i-ph:export scale-110 hover:text-bolt-elements-textPrimary"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onExport?.(event);
+                }}
+                title="Export as JSON"
+              />
               <Dialog.Trigger asChild>
                 <button
-                  className="i-ph:trash scale-110"
+                  className="i-ph:trash scale-110 hover:text-bolt-elements-item-contentDanger"
                   onClick={(event) => {
-                    // we prevent the default so we don't trigger the anchor above
                     event.preventDefault();
                     onDelete?.(event);
                   }}
+                  title="Delete"
                 />
               </Dialog.Trigger>
             </div>

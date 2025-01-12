@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 import { IconButton } from '~/components/ui/IconButton';
 import { ThemeSwitch } from '~/components/ui/ThemeSwitch';
-import { db, deleteById, getAll, chatId, type ChatHistoryItem } from '~/lib/persistence';
+import { db, deleteById, getAll, chatId, type ChatHistoryItem, setMessages } from '~/lib/persistence';
 import { cubicEasingFn } from '~/utils/easings';
 import { logger } from '~/utils/logger';
 import { HistoryItem } from './HistoryItem';
@@ -31,13 +31,17 @@ const menuVariants = {
   },
 } satisfies Variants;
 
-type DialogContent = { type: 'delete'; item: ChatHistoryItem } | null;
+type DialogContent = 
+  | { type: 'delete'; item: ChatHistoryItem }
+  | { type: 'rename'; item: ChatHistoryItem }
+  | null;
 
 export function Menu() {
   const menuRef = useRef<HTMLDivElement>(null);
   const [list, setList] = useState<ChatHistoryItem[]>([]);
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
+  const [newName, setNewName] = useState('');
 
   const loadEntries = useCallback(() => {
     if (db) {
@@ -66,6 +70,43 @@ export function Menu() {
           logger.error(error);
         });
     }
+  }, []);
+
+  const renameItem = useCallback(async (event: React.UIEvent, item: ChatHistoryItem, newDescription: string) => {
+    event.preventDefault();
+
+    if (db) {
+      try {
+        await setMessages(db, item.id, item.messages, item.urlId, newDescription);
+        loadEntries();
+        toast.success('Chat renamed successfully');
+      } catch (error) {
+        toast.error('Failed to rename chat');
+        logger.error(error);
+      }
+    }
+  }, []);
+
+  const exportItem = useCallback((event: React.UIEvent, item: ChatHistoryItem) => {
+    event.preventDefault();
+
+    const exportData = {
+      description: item.description,
+      messages: item.messages,
+      timestamp: item.timestamp
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chat-${item.description || 'export'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success('Chat exported successfully');
   }, []);
 
   const closeDialog = () => {
@@ -102,24 +143,16 @@ export function Menu() {
   return (
     <motion.div
       ref={menuRef}
-      initial="closed"
-      animate={open ? 'open' : 'closed'}
+      className="fixed top-0 bottom-0 w-[300px] bg-bolt-elements-background-depth-2 border-r border-bolt-elements-borderColor z-sidebar"
       variants={menuVariants}
-      className="flex flex-col side-menu fixed top-0 w-[350px] h-full bg-bolt-elements-background-depth-2 border-r rounded-r-3xl border-bolt-elements-borderColor z-sidebar shadow-xl shadow-bolt-elements-sidebar-dropdownShadow text-sm"
+      animate={open ? 'open' : 'closed'}
+      initial="closed"
     >
-      <div className="flex items-center h-[var(--header-height)]">{/* Placeholder */}</div>
-      <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
-        <div className="p-4">
-          <a
-            href="/"
-            className="flex gap-2 items-center bg-bolt-elements-sidebar-buttonBackgroundDefault text-bolt-elements-sidebar-buttonText hover:bg-bolt-elements-sidebar-buttonBackgroundHover rounded-md p-2 transition-theme"
-          >
-            <span className="inline-block i-bolt:chat scale-110" />
-            Start new chat
-          </a>
+      <div className="h-full flex flex-col">
+        <div className="sticky top-0 z-1 bg-bolt-elements-background-depth-2 p-4 pt-12 flex justify-between items-center border-b border-bolt-elements-borderColor">
+          <div className="text-bolt-elements-textPrimary font-medium">History</div>
         </div>
-        <div className="text-bolt-elements-textPrimary font-medium pl-6 pr-5 my-2">Your Chats</div>
-        <div className="flex-1 overflow-scroll pl-4 pr-5 pb-5">
+        <div className="flex-1 overflow-y-auto p-2 pb-16">
           {list.length === 0 && <div className="pl-2 text-bolt-elements-textTertiary">No previous conversations</div>}
           <DialogRoot open={dialogContent !== null}>
             {binDates(list).map(({ category, items }) => (
@@ -128,7 +161,16 @@ export function Menu() {
                   {category}
                 </div>
                 {items.map((item) => (
-                  <HistoryItem key={item.id} item={item} onDelete={() => setDialogContent({ type: 'delete', item })} />
+                  <HistoryItem 
+                    key={item.id} 
+                    item={item} 
+                    onDelete={() => setDialogContent({ type: 'delete', item })}
+                    onRename={() => {
+                      setNewName(item.description || '');
+                      setDialogContent({ type: 'rename', item });
+                    }}
+                    onExport={(event) => exportItem(event, item)}
+                  />
                 ))}
               </div>
             ))}
@@ -160,12 +202,45 @@ export function Menu() {
                   </div>
                 </>
               )}
+              {dialogContent?.type === 'rename' && (
+                <>
+                  <DialogTitle>Rename Chat</DialogTitle>
+                  <DialogDescription asChild>
+                    <div>
+                      <input
+                        type="text"
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
+                        className="w-full p-2 mt-2 text-bolt-elements-textPrimary bg-bolt-elements-background-depth-1 border border-bolt-elements-borderColor rounded-md focus:outline-none focus:border-bolt-elements-borderColorFocus"
+                        placeholder="Enter new name"
+                        autoFocus
+                      />
+                    </div>
+                  </DialogDescription>
+                  <div className="px-5 pb-4 bg-bolt-elements-background-depth-2 flex gap-2 justify-end">
+                    <DialogButton type="secondary" onClick={closeDialog}>
+                      Cancel
+                    </DialogButton>
+                    <DialogButton
+                      type="primary"
+                      onClick={(event) => {
+                        if (newName.trim()) {
+                          renameItem(event, dialogContent.item, newName.trim());
+                          closeDialog();
+                        }
+                      }}
+                    >
+                      Rename
+                    </DialogButton>
+                  </div>
+                </>
+              )}
             </Dialog>
           </DialogRoot>
         </div>
-        <div className="flex items-center border-t border-bolt-elements-borderColor p-4">
-          <ThemeSwitch className="ml-auto" />
-        </div>
+      </div>
+      <div className="absolute bottom-4 right-4">
+        <ThemeSwitch />
       </div>
     </motion.div>
   );
