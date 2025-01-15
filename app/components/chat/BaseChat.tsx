@@ -7,6 +7,7 @@ import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
 import { Messages } from './Messages.client';
 import { SendButton } from './SendButton.client';
+import FilePreview from './FilePreview';
 
 import styles from './BaseChat.module.scss';
 
@@ -21,10 +22,14 @@ interface BaseChatProps {
   enhancingPrompt?: boolean;
   promptEnhanced?: boolean;
   input?: string;
+  files?: File[];
+  imageDataList?: string[];
   handleStop?: () => void;
   sendMessage?: (event: React.UIEvent, messageInput?: string) => void;
   handleInputChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   enhancePrompt?: () => void;
+  onFileUpload?: (files: FileList) => void;
+  onRemoveFile?: (index: number) => void;
 }
 
 const EXAMPLE_PROMPTS = [
@@ -54,6 +59,10 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
       handleInputChange,
       enhancePrompt,
       handleStop,
+      files,
+      imageDataList,
+      onFileUpload,
+      onRemoveFile,
     },
     ref,
   ) => {
@@ -173,6 +182,20 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                           </>
                         )}
                       </IconButton>
+                      <input
+                        type="file"
+                        id="image-upload"
+                        accept="image/*"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => onFileUpload?.(e.target.files!)}
+                      />
+                      <IconButton
+                        title="Upload images"
+                        onClick={() => document.getElementById('image-upload')?.click()}
+                      >
+                        <div className="i-ph:image text-xl" />
+                      </IconButton>
                     </div>
                     {input.length > 3 ? (
                       <div className="text-xs text-bolt-elements-textTertiary">
@@ -180,6 +203,15 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                       </div>
                     ) : null}
                   </div>
+                  {files && files.length > 0 && (
+                    <div className="px-4 pb-4">
+                      <FilePreview
+                        files={files}
+                        imageDataList={imageDataList || []}
+                        onRemove={onRemoveFile || (() => {})}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="bg-bolt-elements-background-depth-1 pb-6">{/* Ghost Element */}</div>
               </div>
