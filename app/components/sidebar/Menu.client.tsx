@@ -1,9 +1,10 @@
 import { motion, type Variants } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import { saveAs } from 'file-saver';
 import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 import { ThemeSwitch } from '~/components/ui/ThemeSwitch';
-import { db, deleteById, getAll, chatId, type ChatHistoryItem } from '~/lib/persistence';
+import { db, deleteById, getAll, chatId, type ChatHistoryItem, setMessages } from '~/lib/persistence';
 import { cubicEasingFn } from '~/utils/easings';
 import { logger } from '~/utils/logger';
 import { HistoryItem } from './HistoryItem';
@@ -67,6 +68,40 @@ export function Menu() {
     }
   }, []);
 
+  const renameItem = useCallback((id: string, newDescription: string) => {
+    if (db) {
+      const item = list.find((item) => item.id === id);
+      if (item) {
+        setMessages(db, id, item.messages, item.urlId, newDescription)
+          .then(() => {
+            loadEntries();
+            toast.success('Chat renamed successfully');
+          })
+          .catch((error) => {
+            toast.error('Failed to rename chat');
+            logger.error(error);
+          });
+      }
+    }
+  }, [list]);
+
+  const exportItem = useCallback((item: ChatHistoryItem) => {
+    try {
+      const chatData = {
+        description: item.description,
+        messages: item.messages,
+        timestamp: item.timestamp,
+      };
+      const blob = new Blob([JSON.stringify(chatData, null, 2)], { type: 'application/json' });
+      const filename = `${item.description || 'chat'}-${new Date(item.timestamp).toISOString().split('T')[0]}.json`;
+      saveAs(blob, filename);
+      toast.success('Chat exported successfully');
+    } catch (error) {
+      toast.error('Failed to export chat');
+      logger.error(error);
+    }
+  }, []);
+
   const closeDialog = () => {
     setDialogContent(null);
   };
@@ -127,7 +162,13 @@ export function Menu() {
                   {category}
                 </div>
                 {items.map((item) => (
-                  <HistoryItem key={item.id} item={item} onDelete={() => setDialogContent({ type: 'delete', item })} />
+                  <HistoryItem
+                    key={item.id}
+                    item={item}
+                    onDelete={() => setDialogContent({ type: 'delete', item })}
+                    onRename={renameItem}
+                    onExport={exportItem}
+                  />
                 ))}
               </div>
             ))}
