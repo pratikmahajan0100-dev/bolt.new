@@ -46,7 +46,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
       },
     });
 
-    const transformedStream = result.toAIStream().pipeThrough(transformStream);
+    const transformedStream = result.toDataStream().pipeThrough(transformStream);
 
     return new StreamingTextResponse(transformedStream);
   } catch (error) {
