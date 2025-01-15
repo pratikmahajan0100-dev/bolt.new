@@ -40,7 +40,7 @@ export const IconButton = memo(
     return (
       <button
         className={classNames(
-          'flex items-center p-1.5 text-bolt-elements-item-contentDefault hover:text-bolt-elements-item-contentActive rounded-md',
+          'flex items-center justify-center p-1.5 text-bolt-elements-item-contentActive bg-bolt-elements-item-backgroundActive rounded-md hover:bg-bolt-elements-item-backgroundHover transition-colors',
           {
             [classNames('opacity-30', disabledClassName)]: disabled,
           },
@@ -56,22 +56,23 @@ export const IconButton = memo(
           onClick?.(event);
         }}
       >
-        {children ? children : <div className={classNames(icon, getIconSize(size), iconClassName)}></div>}
+        {children ? children : <div className={classNames(icon, getIconSize(size), 'scale-125', iconClassName)}></div>}
       </button>
     );
   },
 );
 
 function getIconSize(size: IconSize) {
-  if (size === 'sm') {
-    return 'text-sm';
-  } else if (size === 'md') {
-    return 'text-md';
-  } else if (size === 'lg') {
-    return 'text-lg';
-  } else if (size === 'xl') {
-    return 'text-xl';
-  } else {
-    return 'text-2xl';
+  switch (size) {
+    case 'sm':
+      return 'text-sm';
+    case 'md':
+      return 'text-base';
+    case 'lg':
+      return 'text-lg';
+    case 'xl':
+      return 'text-xl';
+    case 'xxl':
+      return 'text-2xl';
   }
 }

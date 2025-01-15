@@ -3,6 +3,8 @@ import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import { computed } from 'nanostores';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 import {
   type OnChangeCallback as OnEditorChange,
   type OnScrollCallback as OnEditorScroll,
@@ -63,6 +65,36 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
   const files = useStore(workbenchStore.files);
   const selectedView = useStore(workbenchStore.currentView);
 
+  const downloadZip = async () => {
+    const zip = new JSZip();
+
+    for (const [filePath, dirent] of Object.entries(files)) {
+      if (dirent?.type === 'file' && !dirent.isBinary) {
+        // remove '/home/project/' from the beginning of the path
+        const relativePath = filePath.replace(/^\/home\/project\//, '');
+
+        // split the path into segments
+        const pathSegments = relativePath.split('/');
+
+        // if there's more than one segment, we need to create folders
+        if (pathSegments.length > 1) {
+          let currentFolder = zip;
+
+          for (let i = 0; i < pathSegments.length - 1; i++) {
+            currentFolder = currentFolder.folder(pathSegments[i])!;
+          }
+          currentFolder.file(pathSegments[pathSegments.length - 1], dirent.content);
+        } else {
+          // if there's only one segment, it's a file in the root
+          zip.file(relativePath, dirent.content);
+        }
+      }
+    }
+
+    const content = await zip.generateAsync({ type: 'blob' });
+    saveAs(content, 'project.zip');
+  };
+
   const setSelectedView = (view: WorkbenchViewType) => {
     workbenchStore.currentView.set(view);
   };
@@ -122,15 +154,24 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
                 <Slider selected={selectedView} options={sliderOptions} setSelected={setSelectedView} />
                 <div className="ml-auto" />
                 {selectedView === 'code' && (
-                  <PanelHeaderButton
-                    className="mr-1 text-sm"
-                    onClick={() => {
-                      workbenchStore.toggleTerminal(!workbenchStore.showTerminal.get());
-                    }}
-                  >
-                    <div className="i-ph:terminal" />
-                    Toggle Terminal
-                  </PanelHeaderButton>
+                  <>
+                    <PanelHeaderButton
+                      className="mr-1 text-sm"
+                      onClick={downloadZip}
+                    >
+                      <div className="i-ph:download-bold" />
+                      Download
+                    </PanelHeaderButton>
+                    <PanelHeaderButton
+                      className="mr-1 text-sm"
+                      onClick={() => {
+                        workbenchStore.toggleTerminal(!workbenchStore.showTerminal.get());
+                      }}
+                    >
+                      <div className="i-ph:terminal" />
+                      Toggle Terminal
+                    </PanelHeaderButton>
+                  </>
                 )}
                 <IconButton
                   icon="i-ph:x-circle"
