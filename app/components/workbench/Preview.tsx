@@ -78,6 +78,44 @@ export const Preview = memo(() => {
       )}
       <div className="bg-bolt-elements-background-depth-2 p-2 flex items-center gap-1.5">
         <IconButton icon="i-ph:arrow-clockwise" onClick={reloadPreview} />
+        <IconButton
+          icon="i-ph:arrow-square-out"
+          onClick={() => {
+            console.log('Button clicked');
+            if (activePreview?.baseUrl) {
+              console.log('Active preview baseUrl:', activePreview.baseUrl);
+              // Extract the preview ID from the WebContainer URL
+              const match = activePreview.baseUrl.match(
+                /^https?:\/\/([^.]+)\.local-(?:corp|credentialless)\.webcontainer-api\.io/,
+              );
+
+              console.log('URL match:', match);
+              if (match) {
+                const previewId = match[1];
+                console.log('Preview ID:', previewId);
+
+                // Open in new tab using our route with absolute path
+                // Use the current port for development
+                const port = window.location.port ? `:${window.location.port}` : '';
+                const previewUrl = `${window.location.protocol}//${window.location.hostname}${port}/webcontainer/preview/${previewId}`;
+                console.log('Opening URL:', previewUrl);
+                const newWindow = window.open(previewUrl, '_blank', 'noopener,noreferrer');
+
+                // Force focus on the new window
+                if (newWindow) {
+                  newWindow.focus();
+                } else {
+                  console.warn('Failed to open new window');
+                }
+              } else {
+                console.warn('[Preview] Invalid WebContainer URL:', activePreview.baseUrl);
+              }
+            } else {
+              console.warn('No active preview available');
+            }
+          }}
+          title="Open Preview in New Tab"
+        />
         <div
           className="flex items-center gap-1 flex-grow bg-bolt-elements-preview-addressBar-background border border-bolt-elements-borderColor text-bolt-elements-preview-addressBar-text rounded-full px-3 py-1 text-sm hover:bg-bolt-elements-preview-addressBar-backgroundHover hover:focus-within:bg-bolt-elements-preview-addressBar-backgroundActive focus-within:bg-bolt-elements-preview-addressBar-backgroundActive
         focus-within-border-bolt-elements-borderColorActive focus-within:text-bolt-elements-preview-addressBar-textActive"
