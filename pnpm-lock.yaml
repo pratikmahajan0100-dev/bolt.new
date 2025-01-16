@@ -111,8 +111,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       diff:
-        specifier: ^5.2.0
-        version: 5.2.0
+        specifier: ^7.0.0
+        version: 7.0.0
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
@@ -193,8 +193,8 @@ importers:
         specifier: ^2.15.2
         version: 2.15.2(@remix-run/react@2.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@types/node@22.10.7)(sass@1.77.6)(typescript@5.7.3)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))(wrangler@3.103.0(@cloudflare/workers-types@4.20250109.0))
       '@types/diff':
-        specifier: ^5.2.3
-        version: 5.2.3
+        specifier: ^7.0.0
+        version: 7.0.0
       '@types/react':
         specifier: ^18.3.18
         version: 18.3.18
@@ -1821,8 +1821,8 @@ packages:
   '@types/diff-match-patch@1.0.36':
     resolution: {integrity: sha512-xFdR6tkm0MWvBfO8xXCSsinYxHcqkQUlcHeSpMC2ukzOb6lwQAfDmW+Qt0AvlGd8HpsS28qKsB+oPeJn9I39jg==}
 
-  '@types/diff@5.2.3':
-    resolution: {integrity: sha512-K0Oqlrq3kQMaO2RhfrNQX5trmt+XLyom88zS0u84nnIcLvFnRUMRRHmrGny5GSM+kNO9IZLARsdQHDzkhAgmrQ==}
+  '@types/diff@7.0.0':
+    resolution: {integrity: sha512-sVpkpbnTJL9CYoDf4U+tHaQLe5HiTaHWY7m9FuYA7oMCHwC9ie0Vh9eIGapyzYrU3+pILlSY2fAc4elfw5m4dg==}
 
   '@types/eslint@8.56.10':
     resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
@@ -2636,6 +2636,10 @@ packages:
 
   diff@5.2.0:
     resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
+    engines: {node: '>=0.3.1'}
+
+  diff@7.0.0:
+    resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
     engines: {node: '>=0.3.1'}
 
   diffie-hellman@5.0.3:
@@ -6981,7 +6985,7 @@ snapshots:
 
   '@types/diff-match-patch@1.0.36': {}
 
-  '@types/diff@5.2.3': {}
+  '@types/diff@7.0.0': {}
 
   '@types/eslint@8.56.10':
     dependencies:
@@ -7971,6 +7975,8 @@ snapshots:
   diff-match-patch@1.0.5: {}
 
   diff@5.2.0: {}
+
+  diff@7.0.0: {}
 
   diffie-hellman@5.0.3:
     dependencies:
