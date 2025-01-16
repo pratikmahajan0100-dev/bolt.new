@@ -1,15 +1,14 @@
 import type { Message } from 'ai';
 import React, { type RefCallback } from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
+import styles from './BaseChat.module.scss';
+import FilePreview from './FilePreview';
+import { Messages } from './Messages.client';
+import { SendButton } from './SendButton.client';
 import { Menu } from '~/components/sidebar/Menu.client';
 import { IconButton } from '~/components/ui/IconButton';
 import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
-import { Messages } from './Messages.client';
-import { SendButton } from './SendButton.client';
-import FilePreview from './FilePreview';
-
-import styles from './BaseChat.module.scss';
 
 interface BaseChatProps {
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined;
@@ -208,7 +207,12 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                       <FilePreview
                         files={files}
                         imageDataList={imageDataList || []}
-                        onRemove={onRemoveFile || (() => {})}
+                        onRemove={
+                          onRemoveFile ||
+                          function noop() {
+                            /* no-op */
+                          }
+                        }
                       />
                     </div>
                   )}

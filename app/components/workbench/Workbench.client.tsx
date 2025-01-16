@@ -1,10 +1,12 @@
 import { useStore } from '@nanostores/react';
+import { saveAs } from 'file-saver';
 import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
+import JSZip from 'jszip';
 import { computed } from 'nanostores';
 import { memo, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
+import { EditorPanel } from './EditorPanel';
+import { Preview } from './Preview';
 import {
   type OnChangeCallback as OnEditorChange,
   type OnScrollCallback as OnEditorScroll,
@@ -16,8 +18,6 @@ import { workbenchStore, type WorkbenchViewType } from '~/lib/stores/workbench';
 import { classNames } from '~/utils/classNames';
 import { cubicEasingFn } from '~/utils/easings';
 import { renderLogger } from '~/utils/logger';
-import { EditorPanel } from './EditorPanel';
-import { Preview } from './Preview';
 
 interface WorkspaceProps {
   chatStarted?: boolean;
@@ -155,10 +155,7 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
                 <div className="ml-auto" />
                 {selectedView === 'code' && (
                   <>
-                    <PanelHeaderButton
-                      className="mr-1 text-sm"
-                      onClick={downloadZip}
-                    >
+                    <PanelHeaderButton className="mr-1 text-sm" onClick={downloadZip}>
                       <div className="i-ph:download-bold" />
                       Download
                     </PanelHeaderButton>

@@ -64,15 +64,23 @@ export const IconButton = memo(
 
 function getIconSize(size: IconSize) {
   switch (size) {
-    case 'sm':
+    case 'sm': {
       return 'text-sm';
-    case 'md':
+    }
+    case 'md': {
       return 'text-base';
-    case 'lg':
+    }
+    case 'lg': {
       return 'text-lg';
-    case 'xl':
+    }
+    case 'xl': {
       return 'text-xl';
-    case 'xxl':
+    }
+    case 'xxl': {
       return 'text-2xl';
+    }
+    default: {
+      return 'text-base';
+    }
   }
 }

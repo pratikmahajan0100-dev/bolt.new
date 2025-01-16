@@ -32,4 +32,4 @@ const FilePreview: React.FC<FilePreviewProps> = ({ files, imageDataList, onRemov
   );
 };
 
-export default FilePreview; 
+export default FilePreview;

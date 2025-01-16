@@ -4,6 +4,7 @@ import { useChat } from 'ai/react';
 import { useAnimate } from 'framer-motion';
 import { memo, useEffect, useRef, useState } from 'react';
 import { cssTransition, toast, ToastContainer } from 'react-toastify';
+import { BaseChat } from './BaseChat';
 import { useMessageParser, usePromptEnhancer, useShortcuts, useSnapScroll } from '~/lib/hooks';
 import { useChatHistory } from '~/lib/persistence';
 import { chatStore } from '~/lib/stores/chat';
@@ -11,7 +12,6 @@ import { workbenchStore } from '~/lib/stores/workbench';
 import { fileModificationsToHTML } from '~/utils/diff';
 import { cubicEasingFn } from '~/utils/easings';
 import { createScopedLogger, renderLogger } from '~/utils/logger';
-import { BaseChat } from './BaseChat';
 
 const toastAnimation = cssTransition({
   enter: 'animated fadeInRight',
@@ -151,9 +151,10 @@ export const ChatImpl = memo(({ initialMessages, storeMessageHistory }: ChatProp
   const handleFileUpload = (fileList: FileList) => {
     const newFiles = Array.from(fileList);
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    
+
     newFiles.forEach((file) => {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         setImageDataList((prev) => [...prev, reader.result as string]);
       };
