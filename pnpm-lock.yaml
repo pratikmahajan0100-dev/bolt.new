@@ -194,7 +194,7 @@ importers:
         version: 2.15.2(@cloudflare/workers-types@4.20250109.0)(typescript@5.7.3)
       '@remix-run/dev':
         specifier: ^2.15.2
-        version: 2.15.2(@remix-run/react@2.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@types/node@22.10.7)(sass@1.77.6)(typescript@5.7.3)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))(wrangler@3.103.0(@cloudflare/workers-types@4.20250109.0))
+        version: 2.15.2(@remix-run/react@2.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@types/node@22.10.7)(sass@1.77.6)(typescript@5.7.3)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))(wrangler@3.103.1(@cloudflare/workers-types@4.20250109.0))
       '@types/diff':
         specifier: ^7.0.0
         version: 7.0.0
@@ -241,8 +241,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(@types/node@22.10.7)(sass@1.77.6)
       wrangler:
-        specifier: ^3.103.0
-        version: 3.103.0(@cloudflare/workers-types@4.20250109.0)
+        specifier: ^3.103.1
+        version: 3.103.1(@cloudflare/workers-types@4.20250109.0)
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -444,15 +444,6 @@ packages:
   '@cloudflare/kv-asset-handler@0.3.4':
     resolution: {integrity: sha512-YLPHc8yASwjNkmcDMQMY35yiWjoKAKnhUbPRszBRS0YgH+IXtsMp61j+yTcnCE3oO2DgP0U3iejLC8FTtKDC8Q==}
     engines: {node: '>=16.13'}
-
-  '@cloudflare/unenv-preset@1.0.0':
-    resolution: {integrity: sha512-rnihjY4xUsBmlqp0eM2tQXm+40aj3C7WhdH4eGHkLaoBKr3+LwuENByYm5mf65WEeA5NE6BolTnjkiJUts3RuA==}
-    peerDependencies:
-      unenv: npm:unenv-nightly@*
-      workerd: ^1.20241230.0
-    peerDependenciesMeta:
-      workerd:
-        optional: true
 
   '@cloudflare/workerd-darwin-64@1.20241230.0':
     resolution: {integrity: sha512-BZHLg4bbhNQoaY1Uan81O3FV/zcmWueC55juhnaI7NAobiQth9RppadPNpxNAmS9fK2mR5z8xrwMQSQrHmztyQ==}
@@ -5356,8 +5347,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@3.103.0:
-    resolution: {integrity: sha512-DK1wLHwiELI5jmHolf7ZCWji+CkSgSZdD/ccrCtDWr5r9vJSb6gpPG9Dc7E68Z/yMFub9+r2XuwKLHEABMLZWw==}
+  wrangler@3.103.1:
+    resolution: {integrity: sha512-IuPXxRY5IZ081m6TeL1UY4X1lUH873MbndT4Tn9A5qN5ePzxTvyOM3pUil76bV+2rXk/TiZyt9fYykrKQ4g6Xg==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -5708,12 +5699,6 @@ snapshots:
   '@cloudflare/kv-asset-handler@0.3.4':
     dependencies:
       mime: 3.0.0
-
-  '@cloudflare/unenv-preset@1.0.0(unenv-nightly@2.0.0-20250109-100802-88ad671)(workerd@1.20241230.0)':
-    dependencies:
-      unenv: unenv-nightly@2.0.0-20250109-100802-88ad671
-    optionalDependencies:
-      workerd: 1.20241230.0
 
   '@cloudflare/workerd-darwin-64@1.20241230.0':
     optional: true
@@ -6687,7 +6672,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.3
 
-  '@remix-run/dev@2.15.2(@remix-run/react@2.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@types/node@22.10.7)(sass@1.77.6)(typescript@5.7.3)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))(wrangler@3.103.0(@cloudflare/workers-types@4.20250109.0))':
+  '@remix-run/dev@2.15.2(@remix-run/react@2.15.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@types/node@22.10.7)(sass@1.77.6)(typescript@5.7.3)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))(wrangler@3.103.1(@cloudflare/workers-types@4.20250109.0))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/generator': 7.26.5
@@ -6748,7 +6733,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.3
       vite: 5.4.11(@types/node@22.10.7)(sass@1.77.6)
-      wrangler: 3.103.0(@cloudflare/workers-types@4.20250109.0)
+      wrangler: 3.103.1(@cloudflare/workers-types@4.20250109.0)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -11447,10 +11432,9 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20241230.0
       '@cloudflare/workerd-windows-64': 1.20241230.0
 
-  wrangler@3.103.0(@cloudflare/workers-types@4.20250109.0):
+  wrangler@3.103.1(@cloudflare/workers-types@4.20250109.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
-      '@cloudflare/unenv-preset': 1.0.0(unenv-nightly@2.0.0-20250109-100802-88ad671)(workerd@1.20241230.0)
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
       blake3-wasm: 2.1.5
