@@ -59,7 +59,7 @@ export default function WebContainerPreview() {
     };
 
     // Construct the WebContainer preview URL
-    const url = `https://${previewId}.local-corp.webcontainer-api.io`;
+    const url = `https://${previewId}.local-credentialless.webcontainer-api.io`;
     setPreviewUrl(url);
 
     // Set the iframe src
