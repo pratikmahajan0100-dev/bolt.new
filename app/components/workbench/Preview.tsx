@@ -86,7 +86,7 @@ export const Preview = memo(() => {
               console.log('Active preview baseUrl:', activePreview.baseUrl);
               // Extract the preview ID from the WebContainer URL
               const match = activePreview.baseUrl.match(
-                /^https?:\/\/([^.]+)\.local-(?:corp|credentialless)\.webcontainer-api\.io/,
+                /^https?:\/\/([^.]+)\.local-credentialless\.webcontainer-api\.io/,
               );
 
               console.log('URL match:', match);
