@@ -3,9 +3,10 @@ import { saveAs } from 'file-saver';
 import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import JSZip from 'jszip';
 import { computed } from 'nanostores';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditorPanel } from './EditorPanel';
+import { GitHubPushModal } from './GitHubPushModal';
 import { Preview } from './Preview';
 import {
   type OnChangeCallback as OnEditorChange,
@@ -64,6 +65,7 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
   const unsavedFiles = useStore(workbenchStore.unsavedFiles);
   const files = useStore(workbenchStore.files);
   const selectedView = useStore(workbenchStore.currentView);
+  const [showGitHubModal, setShowGitHubModal] = useState(false);
 
   const downloadZip = async () => {
     const zip = new JSZip();
@@ -159,6 +161,13 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
                       <div className="i-ph:download-bold" />
                       Download
                     </PanelHeaderButton>
+                    <PanelHeaderButton 
+                      className="mr-1 text-sm" 
+                      onClick={() => setShowGitHubModal(true)}
+                    >
+                      <div className="i-ph:github-logo-bold" />
+                      Push to GitHub
+                    </PanelHeaderButton>
                     <PanelHeaderButton
                       className="mr-1 text-sm"
                       onClick={() => {
@@ -207,6 +216,10 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
             </div>
           </div>
         </div>
+        <GitHubPushModal 
+          isOpen={showGitHubModal}
+          onClose={() => setShowGitHubModal(false)}
+        />
       </motion.div>
     )
   );
