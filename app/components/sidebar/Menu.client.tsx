@@ -1,14 +1,14 @@
+import { saveAs } from 'file-saver';
 import { motion, type Variants } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { saveAs } from 'file-saver';
+import { HistoryItem } from './HistoryItem';
+import { binDates } from './date-binning';
 import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 import { ThemeSwitch } from '~/components/ui/ThemeSwitch';
 import { db, deleteById, getAll, chatId, type ChatHistoryItem, setMessages } from '~/lib/persistence';
 import { cubicEasingFn } from '~/utils/easings';
 import { logger } from '~/utils/logger';
-import { HistoryItem } from './HistoryItem';
-import { binDates } from './date-binning';
 
 const menuVariants = {
   closed: {
@@ -68,22 +68,26 @@ export function Menu() {
     }
   }, []);
 
-  const renameItem = useCallback((id: string, newDescription: string) => {
-    if (db) {
-      const item = list.find((item) => item.id === id);
-      if (item) {
-        setMessages(db, id, item.messages, item.urlId, newDescription)
-          .then(() => {
-            loadEntries();
-            toast.success('Chat renamed successfully');
-          })
-          .catch((error) => {
-            toast.error('Failed to rename chat');
-            logger.error(error);
-          });
+  const renameItem = useCallback(
+    (id: string, newDescription: string) => {
+      if (db) {
+        const item = list.find((item) => item.id === id);
+
+        if (item) {
+          setMessages(db, id, item.messages, item.urlId, newDescription)
+            .then(() => {
+              loadEntries();
+              toast.success('Chat renamed successfully');
+            })
+            .catch((error) => {
+              toast.error('Failed to rename chat');
+              logger.error(error);
+            });
+        }
       }
-    }
-  }, [list]);
+    },
+    [list],
+  );
 
   const exportItem = useCallback((item: ChatHistoryItem) => {
     try {

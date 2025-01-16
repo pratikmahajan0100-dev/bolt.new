@@ -1,5 +1,5 @@
-import { modificationsRegex } from '~/utils/diff';
 import { Markdown } from './Markdown';
+import { modificationsRegex } from '~/utils/diff';
 
 interface MessageContent {
   type: string;
@@ -18,7 +18,11 @@ export function UserMessage({ content }: UserMessageProps) {
         <div className="flex flex-col gap-4">
           {content.map((item, index) => {
             if (item.type === 'text') {
-              return <Markdown key={index} limitedMarkdown>{sanitizeUserMessage(item.text || '')}</Markdown>;
+              return (
+                <Markdown key={index} limitedMarkdown>
+                  {sanitizeUserMessage(item.text || '')}
+                </Markdown>
+              );
             } else if (item.type === 'image') {
               return (
                 <div key={index} className="max-w-[300px]">
@@ -26,6 +30,7 @@ export function UserMessage({ content }: UserMessageProps) {
                 </div>
               );
             }
+
             return null;
           })}
         </div>
