@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs } from '@remix-run/cloudflare';
-import { StreamingTextResponse, parseStreamPart } from 'ai';
+import { createDataStream, createDataStreamResponse } from 'ai';
 import { streamText } from '~/lib/.server/llm/stream-text';
 import { stripIndents } from '~/utils/stripIndent';
 
@@ -34,21 +34,24 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
 
     const transformStream = new TransformStream({
       transform(chunk, controller) {
-        const processedChunk = decoder
-          .decode(chunk)
-          .split('\n')
-          .filter((line) => line !== '')
-          .map(parseStreamPart)
-          .map((part) => part.value)
-          .join('');
-
-        controller.enqueue(encoder.encode(processedChunk));
-      },
+        const text = decoder.decode(chunk);
+        const lines = text.split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('0:')) {
+            // Extract only the content after "0:"
+            const content = line.slice(2);
+            controller.enqueue(encoder.encode(content));
+          }
+          // Ignore 'e:' and 'd:' lines as they contain metadata
+        }
+      }
     });
 
-    const transformedStream = result.toDataStream().pipeThrough(transformStream);
-
-    return new StreamingTextResponse(transformedStream);
+    const stream = result.toDataStream().pipeThrough(transformStream);
+    return new Response(stream, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
   } catch (error) {
     console.log(error);
 
