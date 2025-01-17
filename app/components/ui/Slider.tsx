@@ -1,8 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
 import { cubicEasingFn } from '~/utils/easings';
 import { genericMemo } from '~/utils/react';
+import type { ReactElement } from 'react';
 
 interface SliderOption<T> {
   value: T;
@@ -37,7 +39,7 @@ export const Slider = genericMemo(<T,>({ selected, options, setSelected }: Slide
 
 interface SliderButtonProps {
   selected: boolean;
-  children: string | JSX.Element | Array<JSX.Element | string>;
+  children: string | ReactElement | Array<ReactElement | string>;
   setSelected: () => void;
 }
 
