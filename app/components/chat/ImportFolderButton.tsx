@@ -3,29 +3,12 @@ import type { Message } from 'ai';
 import { toast } from 'react-toastify';
 import ignore from 'ignore';
 import WithTooltip from '~/components/ui/Tooltip';
+import { IGNORE_PATTERNS } from '~/constants/ignorePatterns';
 
 interface ImportFolderButtonProps {
   className?: string;
   importChat?: (description: string, messages: Message[]) => Promise<void>;
 }
-
-// Common patterns to ignore, similar to .gitignore
-const IGNORE_PATTERNS = [
-  'node_modules/**',
-  '.git/**',
-  'dist/**',
-  'build/**',
-  '.next/**',
-  'coverage/**',
-  '.cache/**',
-  '.vscode/**',
-  '.idea/**',
-  '**/*.log',
-  '**/.DS_Store',
-  '**/npm-debug.log*',
-  '**/yarn-debug.log*',
-  '**/yarn-error.log*',
-];
 
 const ig = ignore().add(IGNORE_PATTERNS);
 const generateId = () => Math.random().toString(36).substring(2, 15);
