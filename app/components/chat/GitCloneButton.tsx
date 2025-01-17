@@ -2,30 +2,7 @@ import ignore from 'ignore';
 import { useGit } from '~/lib/hooks/useGit';
 import type { Message } from 'ai';
 import WithTooltip from '~/components/ui/Tooltip';
-
-const IGNORE_PATTERNS = [
-  'node_modules/**',
-  '.git/**',
-  '.github/**',
-  '.vscode/**',
-  '**/*.jpg',
-  '**/*.jpeg',
-  '**/*.png',
-  'dist/**',
-  'build/**',
-  '.next/**',
-  'coverage/**',
-  '.cache/**',
-  '.vscode/**',
-  '.idea/**',
-  '**/*.log',
-  '**/.DS_Store',
-  '**/npm-debug.log*',
-  '**/yarn-debug.log*',
-  '**/yarn-error.log*',
-  '**/*lock.json',
-  '**/*lock.yaml',
-];
+import { IGNORE_PATTERNS } from '~/constants/ignorePatterns';
 
 const ig = ignore().add(IGNORE_PATTERNS);
 const generateId = () => Math.random().toString(36).substring(2, 15);
