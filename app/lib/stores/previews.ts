@@ -2,7 +2,7 @@ import type { WebContainer, PathWatcherEvent } from '@webcontainer/api';
 import { atom } from 'nanostores';
 import { bufferWatchEvents } from '~/utils/buffer';
 
-// Extend Window interface to include our custom property
+// extend window interface to include our custom property
 declare global {
   interface Window {
     _tabId?: string;
@@ -15,7 +15,7 @@ export interface PreviewInfo {
   baseUrl: string;
 }
 
-// Create a broadcast channel for preview updates
+// create a broadcast channel for preview updates
 const PREVIEW_CHANNEL = 'preview-updates';
 
 export class PreviewsStore {
@@ -35,7 +35,7 @@ export class PreviewsStore {
     this.#broadcastChannel = new BroadcastChannel(PREVIEW_CHANNEL);
     this.#storageChannel = new BroadcastChannel('storage-sync-channel');
 
-    // Listen for preview updates from other tabs
+    // listen for preview updates from other tabs
     this.#broadcastChannel.onmessage = (event) => {
       const { type, previewId } = event.data;
 
@@ -50,7 +50,7 @@ export class PreviewsStore {
       }
     };
 
-    // Listen for storage sync messages
+    // listen for storage sync messages
     this.#storageChannel.onmessage = (event) => {
       const { storage, source } = event.data;
 
@@ -59,7 +59,7 @@ export class PreviewsStore {
       }
     };
 
-    // Override localStorage setItem to catch all changes
+    // override localStorage setItem to catch all changes
     if (typeof window !== 'undefined') {
       const originalSetItem = localStorage.setItem;
 
@@ -72,7 +72,7 @@ export class PreviewsStore {
     this.#init();
   }
 
-  // Generate a unique ID for this tab
+  // generate a unique ID for this tab
   private _getTabId(): string {
     if (typeof window !== 'undefined') {
       if (!window._tabId) {
@@ -85,7 +85,7 @@ export class PreviewsStore {
     return '';
   }
 
-  // Sync storage data between tabs
+  // sync storage data between tabs
   private _syncStorage(storage: Record<string, string>) {
     if (typeof window !== 'undefined') {
       Object.entries(storage).forEach(([key, value]) => {
@@ -97,7 +97,7 @@ export class PreviewsStore {
         }
       });
 
-      // Force a refresh after syncing storage
+      // force a refresh after syncing storage
       const previews = this.previews.get();
       previews.forEach((preview) => {
         const previewId = this.getPreviewId(preview.baseUrl);
@@ -109,7 +109,7 @@ export class PreviewsStore {
     }
   }
 
-  // Broadcast storage state to other tabs
+  // broadcast storage state to other tabs
   private _broadcastStorageSync() {
     if (typeof window !== 'undefined') {
       const storage: Record<string, string> = {};
@@ -134,21 +134,20 @@ export class PreviewsStore {
   async #init() {
     const webcontainer = await this.#webcontainer;
 
-    // Listen for server ready events
+    // listen for server ready events
     webcontainer.on('server-ready', (port, url) => {
       console.log('[Preview] Server ready on port:', port, url);
       this.broadcastUpdate(url);
 
-      // Initial storage sync when preview is ready
+      // initial storage sync when preview is ready
       this._broadcastStorageSync();
     });
 
     try {
-      // Watch for file changes
+      // watch for file changes
       webcontainer.internal.watchPaths(
         { include: ['**/*'], exclude: ['**/node_modules', '.git'], includeContent: true },
-        bufferWatchEvents<[PathWatcherEvent[]]>(100, (events) => {
-          const watchEvents = events.flat(2);
+        bufferWatchEvents<[PathWatcherEvent[]]>(100, (_events) => {
           const previews = this.previews.get();
 
           for (const preview of previews) {
@@ -161,10 +160,10 @@ export class PreviewsStore {
         }),
       );
 
-      // Watch for DOM changes that might affect storage
+      // watch for DOM changes that might affect storage
       if (typeof window !== 'undefined') {
         const observer = new MutationObserver(() => {
-          // Broadcast storage changes when DOM changes
+          // broadcast storage changes when DOM changes
           this._broadcastStorageSync();
         });
 
@@ -179,7 +178,7 @@ export class PreviewsStore {
       console.error('[Preview] Error setting up watchers:', error);
     }
 
-    // Listen for port events
+    // listen for port events
     webcontainer.on('port', (port, type, url) => {
       let previewInfo = this.#availablePreviews.get(port);
       const previews = this.previews.get();
@@ -206,13 +205,13 @@ export class PreviewsStore {
     });
   }
 
-  // Helper to extract preview ID from URL
+  // helper to extract preview ID from URL
   getPreviewId(url: string): string | null {
     const match = url.match(/^https?:\/\/([^.]+)\.local-credentialless\.webcontainer-api\.io/);
     return match ? match[1] : null;
   }
 
-  // Broadcast state change to all tabs
+  // broadcast state change to all tabs
   broadcastStateChange(previewId: string) {
     const timestamp = Date.now();
     this.#lastUpdate.set(previewId, timestamp);
@@ -224,7 +223,7 @@ export class PreviewsStore {
     });
   }
 
-  // Broadcast file change to all tabs
+  // broadcast file change to all tabs
   broadcastFileChange(previewId: string) {
     const timestamp = Date.now();
     this.#lastUpdate.set(previewId, timestamp);
@@ -236,7 +235,7 @@ export class PreviewsStore {
     });
   }
 
-  // Broadcast update to all tabs
+  // broadcast update to all tabs
   broadcastUpdate(url: string) {
     const previewId = this.getPreviewId(url);
 
@@ -252,16 +251,16 @@ export class PreviewsStore {
     }
   }
 
-  // Method to refresh a specific preview
+  // method to refresh a specific preview
   refreshPreview(previewId: string) {
-    // Clear any pending refresh for this preview
+    // clear any pending refresh for this preview
     const existingTimeout = this.#refreshTimeouts.get(previewId);
 
     if (existingTimeout) {
       clearTimeout(existingTimeout);
     }
 
-    // Set a new timeout for this refresh
+    // set a new timeout for this refresh
     const timeout = setTimeout(() => {
       const previews = this.previews.get();
       const preview = previews.find((p) => this.getPreviewId(p.baseUrl) === previewId);

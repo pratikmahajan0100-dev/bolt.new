@@ -61,7 +61,7 @@ export function GitUrlImport({ initialUrl }: GitUrlImportProps) {
 
         const textDecoder = new TextDecoder('utf-8');
 
-        // Convert files to common format for command detection
+        // convert files to common format for command detection
         const fileContents = filePaths
           .map((filePath) => {
             const { data: content, encoding } = data[filePath];
@@ -72,11 +72,11 @@ export function GitUrlImport({ initialUrl }: GitUrlImportProps) {
           })
           .filter((f) => f.content);
 
-        // Detect and create commands message
+        // detect and create commands message
         const commands = await detectProjectCommands(fileContents);
         const commandsMessage = createCommandsMessage(commands);
 
-        // Create files message
+        // create files message
         const filesMessage: Message = {
           role: 'assistant',
           content: `Cloning the repo ${repoUrl} into ${workdir}
@@ -101,9 +101,10 @@ ${file.content}
         }
 
         await importChat(`Git Project:${repoUrl.split('/').slice(-1)[0]}`, messages);
-        
-        // Wait for the chat ID to be set
+
+        // wait for the chat ID to be set
         const id = chatId.get();
+
         if (id) {
           navigateChat(id);
         }
@@ -116,7 +117,7 @@ ${file.content}
       return;
     }
 
-    // Use initialUrl if provided, otherwise fallback to URL parameter
+    // use initialUrl if provided, otherwise fallback to URL parameter
     const url = initialUrl || searchParams.get('url');
 
     if (!url) {
@@ -129,4 +130,4 @@ ${file.content}
   }, [searchParams, historyReady, gitReady, imported, initialUrl]);
 
   return <ClientOnly fallback={<BaseChat />}>{() => <Chat />}</ClientOnly>;
-} 
+}

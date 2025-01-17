@@ -13,35 +13,36 @@ interface DetectedCommand {
 
 export async function detectProjectCommands(files: FileContent[]): Promise<DetectedCommand[]> {
   const commands: DetectedCommand[] = [];
-  
-  // Look for package.json to detect npm/node projects
-  const packageJson = files.find(f => f.path === 'package.json');
+
+  // look for package.json to detect npm/node projects
+  const packageJson = files.find((f) => f.path === 'package.json');
+
   if (packageJson) {
     try {
       const pkg = JSON.parse(packageJson.content);
-      
-      // Add install command
+
+      // add install command
       commands.push({
         type: 'install',
         command: 'npm install',
-        description: 'Install dependencies'
+        description: 'Install dependencies',
       });
 
-      // Add dev command if it exists
+      // add dev command if it exists
       if (pkg.scripts?.dev) {
         commands.push({
           type: 'dev',
           command: 'npm run dev',
-          description: 'Start development server'
+          description: 'Start development server',
         });
       }
 
-      // Add build command if it exists
+      // add build command if it exists
       if (pkg.scripts?.build) {
         commands.push({
           type: 'build',
           command: 'npm run build',
-          description: 'Build the project'
+          description: 'Build the project',
         });
       }
     } catch (e) {
@@ -57,11 +58,14 @@ export function createCommandsMessage(commands: DetectedCommand[]): Message | nu
     return null;
   }
 
-  const commandsContent = commands.map(cmd => 
-    `<boltAction type="shell" title="${cmd.description}">
+  const commandsContent = commands
+    .map(
+      (cmd) =>
+        `<boltAction type="shell" title="${cmd.description}">
 ${cmd.command}
-</boltAction>`
-  ).join('\n');
+</boltAction>`,
+    )
+    .join('\n');
 
   return {
     role: 'assistant',
@@ -70,6 +74,6 @@ ${cmd.command}
 ${commandsContent}
 </boltArtifact>`,
     id: generateId(),
-    createdAt: new Date()
+    createdAt: new Date(),
   };
-} 
+}

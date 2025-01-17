@@ -1,8 +1,8 @@
-import ignore from 'ignore';
-import { useGit } from '~/lib/hooks/useGit';
 import type { Message } from 'ai';
+import ignore from 'ignore';
 import WithTooltip from '~/components/ui/Tooltip';
 import { IGNORE_PATTERNS } from '~/constants/ignorePatterns';
+import { useGit } from '~/lib/hooks/useGit';
 
 const ig = ignore().add(IGNORE_PATTERNS);
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -75,4 +75,4 @@ ${textDecoder.decode(content)}
       </button>
     </WithTooltip>
   );
-} 
+}

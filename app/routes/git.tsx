@@ -17,7 +17,7 @@ interface LoaderData {
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const gitUrl = url.searchParams.get('url');
-  
+
   if (!gitUrl) {
     throw new Response('No Git URL provided', { status: 400 });
   }
@@ -27,11 +27,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
-  
+
   return (
     <div className="flex flex-col h-full w-full">
       <Header />
       <ClientOnly fallback={<BaseChat />}>{() => <GitUrlImport initialUrl={data.url} />}</ClientOnly>
     </div>
   );
-} 
+}

@@ -1,7 +1,7 @@
-import React from 'react';
 import type { Message } from 'ai';
-import { toast } from 'react-toastify';
 import ignore from 'ignore';
+import React from 'react';
+import { toast } from 'react-toastify';
 import WithTooltip from '~/components/ui/Tooltip';
 import { IGNORE_PATTERNS } from '~/constants/ignorePatterns';
 
@@ -14,14 +14,14 @@ const ig = ignore().add(IGNORE_PATTERNS);
 const generateId = () => Math.random().toString(36).substring(2, 15);
 
 const isBinaryFile = async (file: File): Promise<boolean> => {
-  const chunkSize = 1024; // Read the first 1 KB of the file
+  const chunkSize = 1024; // read the first 1 KB of the file
   const buffer = new Uint8Array(await file.slice(0, chunkSize).arrayBuffer());
 
   for (let i = 0; i < buffer.length; i++) {
     const byte = buffer[i];
 
     if (byte === 0 || (byte < 32 && byte !== 9 && byte !== 10 && byte !== 13)) {
-      return true; // Found a binary character
+      return true; // found a binary character
     }
   }
 
@@ -130,9 +130,9 @@ ${fileArtifacts.join('\n\n')}
               toast.error('Failed to import folder');
             }
 
-            e.target.value = ''; // Reset file input
+            e.target.value = ''; // reset file input
           }}
-          {...({} as any)} // if removed webkitdirectory will throw errors as unknow attribute
+          {...({} as any)} // if removed, webkitdirectory will throw errors as unknown attribute
         />
         <button
           onClick={() => {
@@ -147,4 +147,4 @@ ${fileArtifacts.join('\n\n')}
       </div>
     </WithTooltip>
   );
-}; 
+};

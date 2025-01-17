@@ -14,11 +14,7 @@ const FrameworkLink = memo<FrameworkLinkProps>(({ template }) => (
     className="items-center justify-center"
     target="_self"
   >
-    <img
-      src={template.icon}
-      alt={template.label}
-      className="w-8 h-8 opacity-25 hover:opacity-75 transition-all"
-    />
+    <img src={template.icon} alt={template.label} className="w-8 h-8 opacity-25 hover:opacity-75 transition-all" />
   </a>
 ));
 
@@ -37,4 +33,4 @@ const StarterTemplates = memo(() => {
   );
 });
 
-export default StarterTemplates; 
+export default StarterTemplates;

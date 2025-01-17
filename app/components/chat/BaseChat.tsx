@@ -3,6 +3,8 @@ import React, { type RefCallback } from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
 import styles from './BaseChat.module.scss';
 import FilePreview from './FilePreview';
+import GitCloneButton from './GitCloneButton';
+import { ImportFolderButton } from './ImportFolderButton';
 import { Messages } from './Messages.client';
 import { SendButton } from './SendButton.client';
 import StarterTemplates from './StarterTemplates';
@@ -10,8 +12,6 @@ import { Menu } from '~/components/sidebar/Menu.client';
 import { IconButton } from '~/components/ui/IconButton';
 import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
-import GitCloneButton from './GitCloneButton';
-import { ImportFolderButton } from './ImportFolderButton';
 
 interface BaseChatProps {
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined;
@@ -226,18 +226,22 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
             {!chatStarted && (
               <div id="examples" className="relative w-full max-w-xl mx-auto mt-8 flex flex-col items-center">
                 <div className="flex gap-4">
-                  <GitCloneButton importChat={async (description, messages) => {
-                    sendMessage?.(new Event('click') as any, description);
-                    messages.forEach((message) => {
-                      sendMessage?.(new Event('click') as any, message.content);
-                    });
-                  }} />
-                  <ImportFolderButton importChat={async (description, messages) => {
-                    sendMessage?.(new Event('click') as any, description);
-                    messages.forEach((message) => {
-                      sendMessage?.(new Event('click') as any, message.content);
-                    });
-                  }} />
+                  <GitCloneButton
+                    importChat={async (description, messages) => {
+                      sendMessage?.(new Event('click') as any, description);
+                      messages.forEach((message) => {
+                        sendMessage?.(new Event('click') as any, message.content);
+                      });
+                    }}
+                  />
+                  <ImportFolderButton
+                    importChat={async (description, messages) => {
+                      sendMessage?.(new Event('click') as any, description);
+                      messages.forEach((message) => {
+                        sendMessage?.(new Event('click') as any, message.content);
+                      });
+                    }}
+                  />
                 </div>
                 <div className="flex flex-col space-y-2 mt-4 [mask-image:linear-gradient(to_bottom,black_0%,transparent_180%)] hover:[mask-image:none]">
                   {EXAMPLE_PROMPTS.map((examplePrompt, index) => {
