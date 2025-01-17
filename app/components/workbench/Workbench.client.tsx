@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver';
 import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import JSZip from 'jszip';
 import { computed } from 'nanostores';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditorPanel } from './EditorPanel';
 import { GitHubPushModal } from './GitHubPushModal';
@@ -66,6 +66,30 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
   const files = useStore(workbenchStore.files);
   const selectedView = useStore(workbenchStore.currentView);
   const [showGitHubModal, setShowGitHubModal] = useState(false);
+  const [showGitHubPushModal, setShowGitHubPushModal] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSyncFiles = useCallback(async () => {
+    setIsSyncing(true);
+
+    try {
+      if ('showDirectoryPicker' in window) {
+        const directoryHandle = await window.showDirectoryPicker();
+        await workbenchStore.syncFiles(directoryHandle);
+        toast.success('Files synced successfully');
+      } else {
+        // Fallback to download as zip
+        await downloadZip();
+        toast.info('Your browser does not support the File System Access API. Files have been downloaded as a zip instead.');
+      }
+    } catch (error) {
+      console.error('Error syncing files:', error);
+      toast.error('Failed to sync files');
+    } finally {
+      setIsSyncing(false);
+    }
+  }, []);
 
   const downloadZip = async () => {
     const zip = new JSZip();
@@ -157,6 +181,10 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
                 <div className="ml-auto" />
                 {selectedView === 'code' && (
                   <>
+                    <PanelHeaderButton className="mr-1 text-sm" onClick={handleSyncFiles} disabled={isSyncing}>
+                      {isSyncing ? <div className="i-ph:spinner" /> : <div className="i-ph:cloud-arrow-down" />}
+                      {isSyncing ? 'Syncing...' : 'Sync Files'}
+                    </PanelHeaderButton>
                     <PanelHeaderButton className="mr-1 text-sm" onClick={downloadZip}>
                       <div className="i-ph:download-bold" />
                       Download
