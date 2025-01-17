@@ -1,3 +1,5 @@
+import React from 'react';
+import type { ReactElement } from 'react';
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
 
@@ -20,7 +22,7 @@ type IconButtonWithoutChildrenProps = {
 
 type IconButtonWithChildrenProps = {
   icon?: undefined;
-  children: string | JSX.Element | JSX.Element[];
+  children: string | ReactElement | ReactElement[];
 } & BaseIconButtonProps;
 
 type IconButtonProps = IconButtonWithoutChildrenProps | IconButtonWithChildrenProps;
