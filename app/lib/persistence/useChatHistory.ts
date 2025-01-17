@@ -32,42 +32,48 @@ export function useChatHistory() {
   const [ready, setReady] = useState<boolean>(false);
   const [urlId, setUrlId] = useState<string | undefined>();
 
-  const storeMessageHistory = useCallback(async (messages: Message[]) => {
-    if (!db || messages.length === 0) {
-      return;
-    }
-
-    const { firstArtifact } = workbenchStore;
-
-    if (!urlId && firstArtifact?.id) {
-      const urlId = await getUrlId(db, firstArtifact.id);
-
-      navigateChat(urlId);
-      setUrlId(urlId);
-    }
-
-    if (!description.get() && firstArtifact?.title) {
-      description.set(firstArtifact?.title);
-    }
-
-    if (initialMessages.length === 0 && !chatId.get()) {
-      const nextId = await getNextId(db);
-
-      chatId.set(nextId);
-
-      if (!urlId) {
-        navigateChat(nextId);
+  const storeMessageHistory = useCallback(
+    async (messages: Message[]) => {
+      if (!db || messages.length === 0) {
+        return;
       }
-    }
 
-    await setMessages(db, chatId.get() as string, messages, urlId, description.get());
-  }, [initialMessages.length, urlId]);
+      const { firstArtifact } = workbenchStore;
 
-  const importChat = useCallback(async (chatDescription: string, messages: Message[]) => {
-    logger.trace('Importing chat', { description: chatDescription, messages });
-    description.set(chatDescription);
-    await storeMessageHistory(messages);
-  }, [storeMessageHistory]);
+      if (!urlId && firstArtifact?.id) {
+        const urlId = await getUrlId(db, firstArtifact.id);
+
+        navigateChat(urlId);
+        setUrlId(urlId);
+      }
+
+      if (!description.get() && firstArtifact?.title) {
+        description.set(firstArtifact?.title);
+      }
+
+      if (initialMessages.length === 0 && !chatId.get()) {
+        const nextId = await getNextId(db);
+
+        chatId.set(nextId);
+
+        if (!urlId) {
+          navigateChat(nextId);
+        }
+      }
+
+      await setMessages(db, chatId.get() as string, messages, urlId, description.get());
+    },
+    [initialMessages.length, urlId],
+  );
+
+  const importChat = useCallback(
+    async (chatDescription: string, messages: Message[]) => {
+      logger.trace('Importing chat', { description: chatDescription, messages });
+      description.set(chatDescription);
+      await storeMessageHistory(messages);
+    },
+    [storeMessageHistory],
+  );
 
   useEffect(() => {
     if (!db) {
@@ -104,7 +110,7 @@ export function useChatHistory() {
     ready: !mixedId || ready,
     initialMessages,
     storeMessageHistory,
-    importChat
+    importChat,
   };
 }
 

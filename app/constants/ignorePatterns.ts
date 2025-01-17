@@ -20,8 +20,9 @@ export const IGNORE_PATTERNS = [
   '**/yarn-error.log*',
   '**/*lock.json',
   '**/*lock.yaml',
-  // Binary files
+
+  // binary files
   '**/*.jpg',
   '**/*.jpeg',
   '**/*.png',
-]; 
+];

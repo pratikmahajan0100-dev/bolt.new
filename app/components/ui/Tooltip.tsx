@@ -6,7 +6,7 @@ interface WithTooltipProps {
   children: React.ReactNode;
 }
 
-export default memo(function WithTooltip({ tooltip, children }: WithTooltipProps) {
+export default memo(({ tooltip, children }: WithTooltipProps) => {
   return (
     <RadixTooltip.Provider>
       <RadixTooltip.Root>
@@ -23,4 +23,4 @@ export default memo(function WithTooltip({ tooltip, children }: WithTooltipProps
       </RadixTooltip.Root>
     </RadixTooltip.Provider>
   );
-}); 
+});

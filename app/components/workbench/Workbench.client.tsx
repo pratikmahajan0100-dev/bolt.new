@@ -3,7 +3,8 @@ import { saveAs } from 'file-saver';
 import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import JSZip from 'jszip';
 import { computed } from 'nanostores';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditorPanel } from './EditorPanel';
 import { GitHubPushModal } from './GitHubPushModal';
@@ -66,9 +67,7 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
   const files = useStore(workbenchStore.files);
   const selectedView = useStore(workbenchStore.currentView);
   const [showGitHubModal, setShowGitHubModal] = useState(false);
-  const [showGitHubPushModal, setShowGitHubPushModal] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSyncFiles = useCallback(async () => {
     setIsSyncing(true);
@@ -79,9 +78,11 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
         await workbenchStore.syncFiles(directoryHandle);
         toast.success('Files synced successfully');
       } else {
-        // Fallback to download as zip
+        // fallback to download as zip
         await downloadZip();
-        toast.info('Your browser does not support the File System Access API. Files have been downloaded as a zip instead.');
+        toast.info(
+          'Your browser does not support the File System Access API. Files have been downloaded as a zip instead.',
+        );
       }
     } catch (error) {
       console.error('Error syncing files:', error);
@@ -189,10 +190,7 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
                       <div className="i-ph:download-bold" />
                       Download
                     </PanelHeaderButton>
-                    <PanelHeaderButton 
-                      className="mr-1 text-sm" 
-                      onClick={() => setShowGitHubModal(true)}
-                    >
+                    <PanelHeaderButton className="mr-1 text-sm" onClick={() => setShowGitHubModal(true)}>
                       <div className="i-ph:github-logo-bold" />
                       Push to GitHub
                     </PanelHeaderButton>
@@ -244,17 +242,14 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
             </div>
           </div>
         </div>
-        <GitHubPushModal 
-          isOpen={showGitHubModal}
-          onClose={() => setShowGitHubModal(false)}
-        />
+        <GitHubPushModal isOpen={showGitHubModal} onClose={() => setShowGitHubModal(false)} />
       </motion.div>
     )
   );
 });
 
 interface ViewProps extends HTMLMotionProps<'div'> {
-  children: JSX.Element;
+  children: React.ReactElement;
 }
 
 const View = memo(({ children, ...props }: ViewProps) => {

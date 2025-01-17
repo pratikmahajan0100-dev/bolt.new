@@ -82,26 +82,32 @@ export const Preview = memo(() => {
           icon="i-ph:arrow-square-out"
           onClick={() => {
             console.log('Button clicked');
+
             if (activePreview?.baseUrl) {
               console.log('Active preview baseUrl:', activePreview.baseUrl);
-              // Extract the preview ID from the WebContainer URL
+
+              // extract the preview ID from the WebContainer URL
               const match = activePreview.baseUrl.match(
                 /^https?:\/\/([^.]+)\.local-credentialless\.webcontainer-api\.io/,
               );
 
               console.log('URL match:', match);
+
               if (match) {
                 const previewId = match[1];
                 console.log('Preview ID:', previewId);
 
-                // Open in new tab using our route with absolute path
-                // Use the current port for development
+                /**
+                 * Open in new tab using our route with absolute path.
+                 * Use the current port for development.
+                 */
                 const port = window.location.port ? `:${window.location.port}` : '';
                 const previewUrl = `${window.location.protocol}//${window.location.hostname}${port}/webcontainer/preview/${previewId}`;
                 console.log('Opening URL:', previewUrl);
+
                 const newWindow = window.open(previewUrl, '_blank', 'noopener,noreferrer');
 
-                // Force focus on the new window
+                // force focus on the new window
                 if (newWindow) {
                   newWindow.focus();
                 } else {

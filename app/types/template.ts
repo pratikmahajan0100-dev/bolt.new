@@ -5,4 +5,4 @@ export interface Template {
   githubRepo: string;
   tags?: string[];
   icon?: string;
-} 
+}

@@ -257,7 +257,11 @@ export class WorkbenchStore {
 
   async runAction(data: ActionCallbackData) {
     const artifact = this.artifacts.get()[data.messageId];
-    if (!artifact) return;
+
+    if (!artifact) {
+      return;
+    }
+
     await artifact.runner.runAction(data);
   }
 
