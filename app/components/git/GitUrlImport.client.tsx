@@ -6,7 +6,7 @@ import { ClientOnly } from 'remix-utils/client-only';
 import { BaseChat } from '~/components/chat/BaseChat';
 import { Chat } from '~/components/chat/Chat.client';
 import { useGit } from '~/lib/hooks/useGit';
-import { useChatHistory } from '~/lib/persistence';
+import { useChatHistory, chatId } from '~/lib/persistence';
 import { createCommandsMessage, detectProjectCommands } from '~/utils/projectCommands';
 
 const IGNORE_PATTERNS = [
@@ -35,6 +35,10 @@ const IGNORE_PATTERNS = [
 
 interface GitUrlImportProps {
   initialUrl?: string;
+}
+
+function navigateChat(nextId: string) {
+  window.location.href = `/chat/${nextId}`;
 }
 
 export function GitUrlImport({ initialUrl }: GitUrlImportProps) {
@@ -97,6 +101,12 @@ ${file.content}
         }
 
         await importChat(`Git Project:${repoUrl.split('/').slice(-1)[0]}`, messages);
+        
+        // Wait for the chat ID to be set
+        const id = chatId.get();
+        if (id) {
+          navigateChat(id);
+        }
       }
     }
   };
