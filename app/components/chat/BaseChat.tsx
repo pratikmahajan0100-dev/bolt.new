@@ -5,6 +5,7 @@ import styles from './BaseChat.module.scss';
 import FilePreview from './FilePreview';
 import { Messages } from './Messages.client';
 import { SendButton } from './SendButton.client';
+import StarterTemplates from './StarterTemplates';
 import { Menu } from '~/components/sidebar/Menu.client';
 import { IconButton } from '~/components/ui/IconButton';
 import { Workbench } from '~/components/workbench/Workbench.client';
@@ -245,6 +246,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                     );
                   })}
                 </div>
+                <StarterTemplates />
               </div>
             )}
           </div>
