@@ -38,7 +38,7 @@ interface BaseChatProps {
 const EXAMPLE_PROMPTS = [
   { text: 'Build a todo app in React using Tailwind' },
   { text: 'Build a simple blog using Astro' },
-  { text: 'Create a cookie consent form using Material UI' },
+  { text: 'Make a login form using React' },
   { text: 'Make a space invaders game' },
   { text: 'How do I center a div?' },
 ];
@@ -226,8 +226,8 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
               </div>
             </div>
             {!chatStarted && (
-              <div id="examples" className="relative w-full max-w-xl mx-auto mt-8 flex flex-col items-center">
-                <div className="flex gap-4">
+              <div id="examples" className="relative w-full max-w-4xl mx-auto mt-8 flex flex-col items-center px-4">
+                <div className="flex gap-4 mb-8">
                   <GitCloneButton
                     importChat={async (description, messages) => {
                       sendMessage?.(new Event('click') as any, description);
@@ -245,23 +245,27 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                     }}
                   />
                 </div>
-                <div className="flex flex-col space-y-2 mt-4 [mask-image:linear-gradient(to_bottom,black_0%,transparent_180%)] hover:[mask-image:none]">
-                  {EXAMPLE_PROMPTS.map((examplePrompt, index) => {
-                    return (
-                      <button
-                        key={index}
-                        onClick={(event) => {
-                          sendMessage?.(event, examplePrompt.text);
-                        }}
-                        className="group flex items-center w-full gap-2 justify-center bg-transparent text-bolt-elements-textTertiary hover:text-bolt-elements-textPrimary transition-theme"
-                      >
-                        {examplePrompt.text}
-                        <div className="i-ph:arrow-bend-down-left" />
-                      </button>
-                    );
-                  })}
+                <div className="text-center mb-4 text-bolt-elements-textSecondary">
+                  or start a blank app with your favorite stack
                 </div>
-                <StarterTemplates />
+                <div className="flex flex-col space-y-2 w-full">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mb-6">
+                    {EXAMPLE_PROMPTS.map((examplePrompt, index) => {
+                      return (
+                        <button
+                          key={index}
+                          onClick={(event) => {
+                            sendMessage?.(event, examplePrompt.text);
+                          }}
+                          className="group flex items-center justify-center px-3 py-2 rounded-full bg-[#1A1A1A] hover:bg-[#252525] text-sm text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary transition-all duration-200"
+                        >
+                          <span>{examplePrompt.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <StarterTemplates />
+                </div>
               </div>
             )}
           </div>
