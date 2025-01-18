@@ -325,7 +325,7 @@ export const Preview = memo(() => {
                   {WINDOW_SIZES.map((size) => (
                     <button
                       key={size.name}
-                      className="w-full px-4 py-3.5 text-left hover:bg-bolt-elements-item-backgroundAccent text-bolt-elements-textSecondary text-sm whitespace-nowrap transition-all duration-200 flex items-center gap-3 group"
+                      className="w-full px-4 py-3.5 text-left bg-bolt-elements-background-depth-2 hover:bg-bolt-elements-item-backgroundAccent text-bolt-elements-textPrimary text-sm whitespace-nowrap transition-all duration-200 flex items-center gap-3 group"
                       onClick={() => {
                         setSelectedWindowSize(size);
                         setIsWindowSizeDropdownOpen(false);
@@ -333,7 +333,7 @@ export const Preview = memo(() => {
                       }}
                     >
                       <div
-                        className={`${size.icon} w-5 h-5 text-bolt-elements-textSecondary group-hover:text-bolt-elements-item-contentAccent transition-colors duration-200`}
+                        className={`${size.icon} w-5 h-5 text-bolt-elements-textPrimary group-hover:text-bolt-elements-item-contentAccent transition-colors duration-200`}
                       />
                       <div className="flex flex-col">
                         <span className="font-medium text-bolt-elements-textPrimary group-hover:text-bolt-elements-item-contentAccent transition-colors duration-200">
