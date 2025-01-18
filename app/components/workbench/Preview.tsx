@@ -36,10 +36,10 @@ export const Preview = memo(() => {
   const [url, setUrl] = useState('');
   const [iframeUrl, setIframeUrl] = useState<string | undefined>();
 
-  // Toggle between responsive mode and device mode
+  // toggle between responsive mode and device mode
   const [isDeviceModeOn, setIsDeviceModeOn] = useState(false);
 
-  // Use percentage for width
+  // use percentage for width
   const [widthPercent, setWidthPercent] = useState<number>(37.5);
 
   const resizingState = useRef({
@@ -184,7 +184,7 @@ export const Preview = memo(() => {
 
   useEffect(() => {
     const handleWindowResize = () => {
-      // Optional: Adjust widthPercent if necessary
+      // optional: adjust widthPercent if necessary
     };
 
     window.addEventListener('resize', handleWindowResize);
