@@ -3,6 +3,7 @@ import { EditorStore } from './editor';
 import { FilesStore, type FileMap } from './files';
 import { PreviewsStore } from './previews';
 import { TerminalStore } from './terminal';
+import { BoltTerminalStore } from './bolt-terminal';
 import type { EditorDocument, ScrollPosition } from '~/components/editor/codemirror/CodeMirrorEditor';
 import { ActionRunner } from '~/lib/runtime/action-runner';
 import type { ActionCallbackData, ArtifactCallbackData } from '~/lib/runtime/message-parser';
@@ -28,6 +29,7 @@ export class WorkbenchStore {
   #filesStore = new FilesStore(webcontainer);
   #editorStore = new EditorStore(this.#filesStore);
   #terminalStore = new TerminalStore(webcontainer);
+  #boltTerminalStore = new BoltTerminalStore(webcontainer);
 
   artifacts: Artifacts = import.meta.hot?.data.artifacts ?? map({});
 
@@ -84,6 +86,26 @@ export class WorkbenchStore {
 
   onTerminalResize(cols: number, rows: number) {
     this.#terminalStore.onTerminalResize(cols, rows);
+  }
+
+  get showBoltTerminal() {
+    return this.#boltTerminalStore.showBoltTerminal;
+  }
+
+  toggleBoltTerminal(value?: boolean) {
+    this.#boltTerminalStore.toggleBoltTerminal(value);
+  }
+
+  attachBoltTerminal(terminal: ITerminal) {
+    this.#boltTerminalStore.attachTerminal(terminal);
+  }
+
+  onBoltTerminalResize(cols: number, rows: number) {
+    this.#boltTerminalStore.onTerminalResize(cols, rows);
+  }
+
+  writeToBoltTerminal(data: string) {
+    this.#boltTerminalStore.writeToTerminal(data);
   }
 
   setDocuments(files: FileMap) {
