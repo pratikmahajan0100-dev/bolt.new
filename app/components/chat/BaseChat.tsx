@@ -2,6 +2,7 @@ import type { Message } from 'ai';
 import React, { type RefCallback } from 'react';
 import { ClientOnly } from 'remix-utils/client-only';
 import styles from './BaseChat.module.scss';
+import { ChatHistory } from './ChatHistory.client';
 import FilePreview from './FilePreview';
 import GitCloneButton from './GitCloneButton';
 import { ImportFolderButton } from './ImportFolderButton';
@@ -12,7 +13,6 @@ import { Menu } from '~/components/sidebar/Menu.client';
 import { IconButton } from '~/components/ui/IconButton';
 import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
-import { ChatHistory } from './ChatHistory.client';
 
 interface BaseChatProps {
   textareaRef?: React.RefObject<HTMLTextAreaElement | null> | undefined;

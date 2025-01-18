@@ -1,9 +1,9 @@
+import { useNavigate, useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
+import { IconButton } from '~/components/ui/IconButton';
+import { getAll } from '~/lib/persistence/db';
 import type { ChatHistoryItem } from '~/lib/persistence/useChatHistory';
 import { db } from '~/lib/persistence/useChatHistory';
-import { getAll } from '~/lib/persistence/db';
-import { useNavigate, useLoaderData } from '@remix-run/react';
-import { IconButton } from '~/components/ui/IconButton';
 import { classNames } from '~/utils/classNames';
 import { createScopedLogger } from '~/utils/logger';
 
@@ -16,14 +16,17 @@ export function ChatHistory() {
   const { id: currentId } = useLoaderData<{ id?: string }>();
 
   useEffect(() => {
-    if (!db) return;
-    
+    if (!db) {
+      return;
+    }
+
     const loadHistory = async () => {
       try {
         const items = await getAll(db!);
-        // Filter items to only show history for the current chat
+
+        // filter items to only show history for the current chat
         const filteredItems = items
-          .filter(item => item.urlId === currentId || item.id === currentId)
+          .filter((item) => item.urlId === currentId || item.id === currentId)
           .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
         setHistory(filteredItems);
       } catch (error) {
@@ -39,7 +42,9 @@ export function ChatHistory() {
     setIsOpen(false);
   };
 
-  if (!db || history.length === 0) return null;
+  if (!db || history.length === 0) {
+    return null;
+  }
 
   return (
     <div className="relative">
@@ -78,4 +83,4 @@ export function ChatHistory() {
       )}
     </div>
   );
-} 
+}
