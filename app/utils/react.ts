@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
+import type { ComponentProps, ComponentType } from 'react';
 import { memo } from 'react';
 
 export const genericMemo: <T extends ComponentType<any>>(
