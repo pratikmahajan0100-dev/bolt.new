@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
-import { useGit } from '~/lib/hooks/useGit';
 import { toast } from 'react-toastify';
+import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 
 interface GitCloneDialogProps {
   isOpen: boolean;
@@ -19,15 +18,15 @@ export function GitCloneDialog({ isOpen, onClose, onClone }: GitCloneDialogProps
     e.preventDefault();
 
     setIsLoading(true);
+
     try {
-      // If it's a private repo, construct the URL with the token
-      const cloneUrl = isPrivate
-        ? repoUrl.replace('https://', `https://${token}@`)
-        : repoUrl;
+      // if it's a private repo, construct the URL with the token
+      const cloneUrl = isPrivate ? repoUrl.replace('https://', `https://${token}@`) : repoUrl;
 
       if (onClone) {
         await onClone(cloneUrl);
       }
+
       toast.success('Repository cloned successfully!');
       onClose();
     } catch (error) {
@@ -45,21 +44,11 @@ export function GitCloneDialog({ isOpen, onClose, onClone }: GitCloneDialogProps
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex items-center gap-4 mb-4">
               <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={!isPrivate}
-                  onChange={() => setIsPrivate(false)}
-                  className="form-radio"
-                />
+                <input type="radio" checked={!isPrivate} onChange={() => setIsPrivate(false)} className="form-radio" />
                 <span>Public Repository</span>
               </label>
               <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={isPrivate}
-                  onChange={() => setIsPrivate(true)}
-                  className="form-radio"
-                />
+                <input type="radio" checked={isPrivate} onChange={() => setIsPrivate(true)} className="form-radio" />
                 <span>Private Repository</span>
               </label>
             </div>
@@ -107,4 +96,4 @@ export function GitCloneDialog({ isOpen, onClose, onClone }: GitCloneDialogProps
       </Dialog>
     </DialogRoot>
   );
-} 
+}

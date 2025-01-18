@@ -2,10 +2,10 @@ import * as nodePath from 'node:path';
 import { WebContainer } from '@webcontainer/api';
 import { map, type MapStore } from 'nanostores';
 import type { ActionCallbackData } from './message-parser';
+import { workbenchStore } from '~/lib/stores/workbench';
 import type { BoltAction } from '~/types/actions';
 import { createScopedLogger } from '~/utils/logger';
 import { unreachable } from '~/utils/unreachable';
-import { workbenchStore } from '~/lib/stores/workbench';
 
 const logger = createScopedLogger('ActionRunner');
 
@@ -129,7 +129,7 @@ export class ActionRunner {
 
     const webcontainer = await this.#webcontainer;
 
-    // Write the command to the Bolt terminal
+    // write the command to the Bolt terminal
     workbenchStore.writeToBoltTerminal(`\x1b[1;34m$ ${action.content}\x1b[0m\n`);
 
     const process = await webcontainer.spawn('jsh', ['-c', action.content], {
@@ -153,7 +153,9 @@ export class ActionRunner {
     const exitCode = await process.exit;
 
     logger.debug(`Process terminated with code ${exitCode}`);
-    workbenchStore.writeToBoltTerminal(`\x1b[1;${exitCode === 0 ? '32' : '31'}mProcess exited with code ${exitCode}\x1b[0m\n\n`);
+    workbenchStore.writeToBoltTerminal(
+      `\x1b[1;${exitCode === 0 ? '32' : '31'}mProcess exited with code ${exitCode}\x1b[0m\n\n`,
+    );
   }
 
   async #runFileAction(action: ActionState) {
@@ -168,7 +170,7 @@ export class ActionRunner {
     // remove trailing slashes
     folder = folder.replace(/\/+$/g, '');
 
-    // Write file creation to Bolt terminal
+    // write file creation to Bolt terminal
     workbenchStore.writeToBoltTerminal(`\x1b[1;34mCreating file: ${action.filePath}\x1b[0m\n`);
 
     if (folder !== '.') {

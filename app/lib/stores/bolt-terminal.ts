@@ -42,4 +42,4 @@ export class BoltTerminalStore {
       this.#terminal.terminal.write(data);
     }
   }
-} 
+}

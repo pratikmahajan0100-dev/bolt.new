@@ -1,5 +1,5 @@
-import React from 'react';
 import type { ReactElement } from 'react';
+import React from 'react';
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
 

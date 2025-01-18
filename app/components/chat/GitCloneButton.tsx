@@ -1,10 +1,10 @@
 import type { Message } from 'ai';
 import ignore from 'ignore';
+import { useState } from 'react';
+import { GitCloneDialog } from '~/components/git/GitCloneDialog';
 import WithTooltip from '~/components/ui/Tooltip';
 import { IGNORE_PATTERNS } from '~/constants/ignorePatterns';
 import { useGit } from '~/lib/hooks/useGit';
-import { useState } from 'react';
-import { GitCloneDialog } from '~/components/git/GitCloneDialog';
 
 const ig = ignore().add(IGNORE_PATTERNS);
 const generateId = () => Math.random().toString(36).substring(2, 15);
@@ -74,11 +74,7 @@ ${textDecoder.decode(content)}
         </button>
       </WithTooltip>
 
-      <GitCloneDialog 
-        isOpen={showDialog} 
-        onClose={() => setShowDialog(false)}
-        onClone={handleClone}
-      />
+      <GitCloneDialog isOpen={showDialog} onClose={() => setShowDialog(false)} onClone={handleClone} />
     </>
   );
 }
