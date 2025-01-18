@@ -59,27 +59,30 @@ export function ChatHistory() {
       </IconButton>
 
       {isOpen && (
-        <div className="absolute bottom-full left-0 mb-2 w-[300px] max-h-[400px] overflow-y-auto bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor rounded-lg shadow-lg">
-          <div className="p-2">
-            <h3 className="text-sm font-medium text-bolt-elements-textPrimary px-2 py-1">Chat History</h3>
-            <div className="mt-1">
+        <>
+          <div className="fixed inset-0 z-[9998]" onClick={() => setIsOpen(false)} />
+          <div className="absolute bottom-full left-0 mb-2 z-[9999] min-w-[300px] max-h-[400px] overflow-y-auto bg-bolt-elements-background-depth-2 rounded-xl shadow-2xl border border-bolt-elements-borderColor overflow-hidden">
+            <div className="px-4 py-3.5 border-b border-bolt-elements-borderColor">
+              <h3 className="text-sm font-medium text-bolt-elements-textPrimary">Chat History</h3>
+            </div>
+            <div>
               {history.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleRestore(item)}
-                  className="w-full text-left px-2 py-1.5 hover:bg-bolt-elements-item-backgroundHover rounded transition-colors"
+                  className="w-full px-4 py-3.5 text-left bg-bolt-elements-background-depth-2 hover:bg-bolt-elements-item-backgroundAccent text-bolt-elements-textPrimary text-sm whitespace-nowrap transition-all duration-200 flex flex-col group"
                 >
-                  <div className="text-sm text-bolt-elements-textPrimary truncate">
+                  <span className="font-medium text-bolt-elements-textPrimary group-hover:text-bolt-elements-item-contentAccent transition-colors duration-200 truncate">
                     {item.description || `Version ${new Date(item.timestamp).toLocaleTimeString()}`}
-                  </div>
-                  <div className="text-xs text-bolt-elements-textTertiary">
+                  </span>
+                  <span className="text-xs text-bolt-elements-textSecondary group-hover:text-bolt-elements-textPrimary transition-colors duration-200">
                     {new Date(item.timestamp).toLocaleDateString()} {new Date(item.timestamp).toLocaleTimeString()}
-                  </div>
+                  </span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
