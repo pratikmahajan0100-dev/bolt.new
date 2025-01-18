@@ -12,6 +12,7 @@ import { Menu } from '~/components/sidebar/Menu.client';
 import { IconButton } from '~/components/ui/IconButton';
 import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
+import { ChatHistory } from './ChatHistory.client';
 
 interface BaseChatProps {
   textareaRef?: React.RefObject<HTMLTextAreaElement | null> | undefined;
@@ -198,6 +199,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                       >
                         <div className="i-ph:image text-xl" />
                       </IconButton>
+                      <ClientOnly>{() => <ChatHistory />}</ClientOnly>
                     </div>
                     {input.length > 3 ? (
                       <div className="text-xs text-bolt-elements-textTertiary">
