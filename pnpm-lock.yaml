@@ -270,8 +270,8 @@ importers:
         specifier: ^5.4.11
         version: 5.4.11(@types/node@22.10.7)(sass@1.77.6)
       vite-plugin-node-polyfills:
-        specifier: ^0.22.0
-        version: 0.22.0(rollup@4.30.1)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))
+        specifier: ^0.23.0
+        version: 0.23.0(rollup@4.30.1)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))
       vite-plugin-optimize-css-modules:
         specifier: ^1.2.0
         version: 1.2.0(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6))
@@ -5521,10 +5521,10 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
-  vite-plugin-node-polyfills@0.22.0:
-    resolution: {integrity: sha512-F+G3LjiGbG8QpbH9bZ//GSBr9i1InSTkaulfUHFa9jkLqVGORFBoqc2A/Yu5Mmh1kNAbiAeKeK+6aaQUf3x0JA==}
+  vite-plugin-node-polyfills@0.23.0:
+    resolution: {integrity: sha512-4n+Ys+2bKHQohPBKigFlndwWQ5fFKwaGY6muNDMTb0fSQLyBzS+jjUNRZG9sKF0S/Go4ApG6LFnUGopjkILg3w==}
     peerDependencies:
-      vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+      vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
   vite-plugin-optimize-css-modules@1.2.0:
     resolution: {integrity: sha512-5kOEVyif9qSoLAQDmN6nXW2fgz66oLXGlapKwY7u8nPVaVoyabkioQqf90s0gFvssCAY2bwBndx5sK7LF+i2rA==}
@@ -7793,7 +7793,7 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
       '@vanilla-extract/babel-plugin-debug-ids': 1.2.0
       '@vanilla-extract/css': 1.17.0
-      esbuild: 0.17.6
+      esbuild: 0.17.19
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -11873,7 +11873,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-node-polyfills@0.22.0(rollup@4.30.1)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6)):
+  vite-plugin-node-polyfills@0.23.0(rollup@4.30.1)(vite@5.4.11(@types/node@22.10.7)(sass@1.77.6)):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.30.1)
       node-stdlib-browser: 1.3.0
