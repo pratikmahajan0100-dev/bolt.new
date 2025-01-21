@@ -110,7 +110,7 @@
     "unified": "^11.0.5",
     "unocss": "^65.4.2",
     "vite": "^5.4.11",
-    "vite-plugin-node-polyfills": "^0.22.0",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-optimize-css-modules": "^1.2.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.2",
