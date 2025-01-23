@@ -23,8 +23,8 @@
     "node": ">=18.18.0"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.1.1",
-    "@ai-sdk/azure": "^1.1.1",
+    "@ai-sdk/anthropic": "^0.0.39",
+    "@ai-sdk/azure": "^0.0.39",
     "@codemirror/autocomplete": "^6.17.0",
     "@codemirror/commands": "^6.6.0",
     "@codemirror/lang-cpp": "^6.0.2",
@@ -55,7 +55,7 @@
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/addon-web-links": "^0.11.0",
     "@xterm/xterm": "^5.5.0",
-    "ai": "^4.1.1",
+    "ai": "^3.3.4",
     "date-fns": "^3.6.0",
     "diff": "^5.2.0",
     "framer-motion": "^11.2.12",
