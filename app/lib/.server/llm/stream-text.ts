@@ -4,6 +4,10 @@ import { getAnthropicModel } from '~/lib/.server/llm/model';
 import { MAX_TOKENS } from './constants';
 import { getSystemPrompt } from './prompts';
 
+import { createAnthropic } from '@ai-sdk/anthropic';
+
+import { env } from 'node:process';
+
 interface ToolResult<Name extends string, Args, Result> {
   toolCallId: string;
   toolName: Name;
@@ -33,3 +37,31 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     ...options,
   });
 }
+
+// export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
+//   const anthropic = createAnthropic({
+//     apiKey: getAPIKey(env),
+//   });
+
+//   // return _streamText({
+//   //   model: anthropic('claude-3-5-sonnet-20240620'),
+//   //   system: getSystemPrompt(),
+//   //   messages: convertToCoreMessages(messages),
+//   //   headers: {
+//   //     'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+//   //   },
+//   //   maxTokens: MAX_TOKENS,
+//   //   ...options,
+//   // });
+
+//   return _streamText({
+//     model: getAnthropicModel(getAPIKey(env)),
+//     system: getSystemPrompt(),
+//     maxTokens: MAX_TOKENS,
+//     headers: {
+//       'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+//     },
+//     messages: convertToCoreMessages(messages),
+//     ...options,
+//   });
+// }
