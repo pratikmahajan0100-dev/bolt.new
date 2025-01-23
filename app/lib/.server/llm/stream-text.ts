@@ -5,6 +5,7 @@ import { MAX_TOKENS } from './constants';
 import { getSystemPrompt } from './prompts';
 
 import { createAnthropic } from '@ai-sdk/anthropic';
+import { createAzure } from '@ai-sdk/azure';
 
 import { env } from 'node:process';
 
@@ -25,35 +26,7 @@ export type Messages = Message[];
 
 export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
-export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-  return _streamText({
-    model: getAnthropicModel(getAPIKey(env)),
-    system: getSystemPrompt(),
-    maxTokens: MAX_TOKENS,
-    headers: {
-      'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-    },
-    messages: convertToCoreMessages(messages),
-    ...options,
-  });
-}
-
 // export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-//   const anthropic = createAnthropic({
-//     apiKey: getAPIKey(env),
-//   });
-
-//   // return _streamText({
-//   //   model: anthropic('claude-3-5-sonnet-20240620'),
-//   //   system: getSystemPrompt(),
-//   //   messages: convertToCoreMessages(messages),
-//   //   headers: {
-//   //     'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-//   //   },
-//   //   maxTokens: MAX_TOKENS,
-//   //   ...options,
-//   // });
-
 //   return _streamText({
 //     model: getAnthropicModel(getAPIKey(env)),
 //     system: getSystemPrompt(),
@@ -65,3 +38,37 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
 //     ...options,
 //   });
 // }
+
+export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
+  const anthropic = createAnthropic({
+    apiKey: getAPIKey(env),
+  });
+
+  const azure = createAzure({
+    apiKey: '',
+    resourceName: '',
+  });
+
+  return _streamText({
+    model: anthropic('claude-3-5-sonnet-20240620'),
+    // model: azure('gpt-4o'),
+    system: getSystemPrompt(),
+    messages: convertToCoreMessages(messages),
+    // headers: {
+    //   'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+    // },
+    maxTokens: MAX_TOKENS,
+    ...options,
+  });
+
+  // return _streamText({
+  //   model: getAnthropicModel(getAPIKey(env)),
+  //   system: getSystemPrompt(),
+  //   maxTokens: MAX_TOKENS,
+  //   headers: {
+  //     'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+  //   },
+  //   messages: convertToCoreMessages(messages),
+  //   ...options,
+  // });
+}
