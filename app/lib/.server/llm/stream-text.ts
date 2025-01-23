@@ -44,19 +44,19 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     apiKey: getAPIKey(env),
   });
 
-  const azure = createAzure({
-    apiKey: '',
-    resourceName: '',
-  });
+  // const azure = createAzure({
+  //   apiKey: '',
+  //   resourceName: '',
+  // });
 
   return _streamText({
     model: anthropic('claude-3-5-sonnet-20240620'),
     // model: azure('gpt-4o'),
     system: getSystemPrompt(),
     messages: convertToCoreMessages(messages),
-    // headers: {
-    //   'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-    // },
+    headers: {
+      'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+    },
     maxTokens: MAX_TOKENS,
     ...options,
   });
