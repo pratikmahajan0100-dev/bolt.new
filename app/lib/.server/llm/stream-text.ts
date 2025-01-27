@@ -7,8 +7,6 @@ import { getSystemPrompt } from './prompts';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createAzure } from '@ai-sdk/azure';
 
-import { env } from 'node:process';
-
 interface ToolResult<Name extends string, Args, Result> {
   toolCallId: string;
   toolName: Name;
@@ -40,31 +38,35 @@ export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 // }
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-  const anthropic = createAnthropic({
-    apiKey: getAPIKey(env),
-  });
+  try {
+    const azureApiKey = process.env.AZURE_API_KEY;
+    const azureResourceName = process.env.AZURE_RESOURCE_NAME;
+    const azure = createAzure({
+      apiKey: azureApiKey,
+      resourceName: azureResourceName,
+    });
 
-  const azure = createAzure({
-    apiKey: '',
-    resourceName: '',
-  });
+    return _streamText({
+      model: azure('gpt-4o'),
+      system: getSystemPrompt(),
+      messages: convertToCoreMessages(messages),
+      maxTokens: 4096,
+      ...options,
+    });
+  } catch (error) {
+    const anthropic = createAnthropic({
+      apiKey: getAPIKey(env),
+    });
 
-  return _streamText({
-    model: azure('gpt-4o'),
-    system: getSystemPrompt(),
-    messages: convertToCoreMessages(messages),
-    maxTokens: 4096,
-    ...options,
-  });
-
-  // return _streamText({
-  //   model: anthropic('claude-3-5-sonnet-20240620'),
-  //   system: getSystemPrompt(),
-  //   maxTokens: MAX_TOKENS,
-  //   headers: {
-  //     'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-  //   },
-  //   messages: convertToCoreMessages(messages),
-  //   ...options,
-  // });
+    return _streamText({
+      model: anthropic('claude-3-5-sonnet-20240620'),
+      system: getSystemPrompt(),
+      maxTokens: MAX_TOKENS,
+      headers: {
+        'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+      },
+      messages: convertToCoreMessages(messages),
+      ...options,
+    });
+  }
 }
