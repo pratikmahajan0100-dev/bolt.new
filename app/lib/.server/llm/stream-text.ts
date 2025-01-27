@@ -24,19 +24,6 @@ export type Messages = Message[];
 
 export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
-// export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-//   return _streamText({
-//     model: getAnthropicModel(getAPIKey(env)),
-//     system: getSystemPrompt(),
-//     maxTokens: MAX_TOKENS,
-//     headers: {
-//       'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-//     },
-//     messages: convertToCoreMessages(messages),
-//     ...options,
-//   });
-// }
-
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
   try {
     const azureResourceName = process.env.AZURE_RESOURCE_NAME;
@@ -47,7 +34,8 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     });
 
     return _streamText({
-      model: azure('gpt-4o'),
+      // model: azure('gpt-4o'),
+      model: azure('gpt-4o-2024-08-06'),
       system: getSystemPrompt(),
       messages: convertToCoreMessages(messages),
       maxTokens: 4096,
