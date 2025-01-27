@@ -39,11 +39,11 @@ export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
   try {
-    const azureApiKey = process.env.AZURE_API_KEY;
     const azureResourceName = process.env.AZURE_RESOURCE_NAME;
+    const azureResourceNameApiKey = process.env.AZURE_RESOURCE_NAME_API_KEY;
     const azure = createAzure({
-      apiKey: azureApiKey,
       resourceName: azureResourceName,
+      apiKey: azureResourceNameApiKey,
     });
 
     return _streamText({
@@ -53,20 +53,20 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
       maxTokens: 4096,
       ...options,
     });
-  } catch (error) {
-    const anthropic = createAnthropic({
-      apiKey: getAPIKey(env),
-    });
 
-    return _streamText({
-      model: anthropic('claude-3-5-sonnet-20240620'),
-      system: getSystemPrompt(),
-      maxTokens: MAX_TOKENS,
-      headers: {
-        'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-      },
-      messages: convertToCoreMessages(messages),
-      ...options,
-    });
-  }
+    // const anthropic = createAnthropic({
+    //   apiKey: getAPIKey(env),
+    // });
+
+    // return _streamText({
+    //   model: anthropic('claude-3-5-sonnet-20240620'),
+    //   system: getSystemPrompt(),
+    //   maxTokens: MAX_TOKENS,
+    //   headers: {
+    //     'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+    //   },
+    //   messages: convertToCoreMessages(messages),
+    //   ...options,
+    // });
+  } catch (error) {}
 }
