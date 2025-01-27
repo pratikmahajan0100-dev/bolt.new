@@ -56,5 +56,8 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     //   messages: convertToCoreMessages(messages),
     //   ...options,
     // });
-  } catch (error) {}
+  } catch (error) {
+    console.error('Error streaming text:', error);
+    throw error;
+  }
 }
