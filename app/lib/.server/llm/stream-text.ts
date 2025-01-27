@@ -34,8 +34,8 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     });
 
     return _streamText({
-      // model: azure('gpt-4o'),
-      model: azure('gpt-4o-2024-08-06'),
+      model: azure('gpt-4o'),
+      // model: azure('gpt-4o-2024-08-06'),
       system: getSystemPrompt(),
       messages: convertToCoreMessages(messages),
       maxTokens: 4096,
