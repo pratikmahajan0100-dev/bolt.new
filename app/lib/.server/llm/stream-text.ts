@@ -51,9 +51,8 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
 
     return _streamText({
       // model: ollama('llava'),
-      // model: ollama('llava'),
-      // model: ollama('llava'),
-      model: ollama('deepseek-r1'),
+      // model: ollama('deepseek-r1:7b'),
+      model: ollama('deepseek-r1:70b'),
       system: getSystemPrompt(),
       messages: convertToCoreMessages(messages),
       maxTokens: MAX_TOKENS,
