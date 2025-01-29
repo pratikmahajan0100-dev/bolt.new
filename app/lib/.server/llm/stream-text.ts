@@ -5,6 +5,7 @@ import { getSystemPrompt } from './prompts';
 
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createAzure } from '@ai-sdk/azure';
+import { createOllama } from 'ollama-ai-provider';
 
 interface ToolResult<Name extends string, Args, Result> {
   toolCallId: string;
@@ -25,19 +26,34 @@ export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
   try {
-    const azureResourceName = process.env.AZURE_RESOURCE_NAME;
-    const azureResourceNameApiKey = process.env.AZURE_RESOURCE_NAME_API_KEY;
-    const azure = createAzure({
-      resourceName: azureResourceName,
-      apiKey: azureResourceNameApiKey,
-      headers: {
-        'api_version': '2024-11-20',
-      },
+    // const azureResourceName = process.env.AZURE_RESOURCE_NAME;
+    // const azureResourceNameApiKey = process.env.AZURE_RESOURCE_NAME_API_KEY;
+    // const azure = createAzure({
+    //   resourceName: azureResourceName,
+    //   apiKey: azureResourceNameApiKey,
+    //   headers: {
+    //     'api_version': '2024-11-20',
+    //   },
+    // });
+
+    // return _streamText({
+    //   // model: azure('gpt-4o'),
+    //   model: azure('gpt-4o-2'),
+    //   system: getSystemPrompt(),
+    //   messages: convertToCoreMessages(messages),
+    //   maxTokens: MAX_TOKENS,
+    //   ...options,
+    // });
+
+    const ollama = createOllama({
+      baseURL: 'http://localhost:11434/api',
     });
 
     return _streamText({
-      // model: azure('gpt-4o'),
-      model: azure('gpt-4o-2'),
+      // model: ollama('llava'),
+      // model: ollama('llava'),
+      // model: ollama('llava'),
+      model: ollama('deepseek-r1'),
       system: getSystemPrompt(),
       messages: convertToCoreMessages(messages),
       maxTokens: MAX_TOKENS,
