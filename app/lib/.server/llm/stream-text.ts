@@ -26,38 +26,45 @@ export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
   try {
-    // const azureResourceName = process.env.AZURE_RESOURCE_NAME;
-    // const azureResourceNameApiKey = process.env.AZURE_RESOURCE_NAME_API_KEY;
-    // const azure = createAzure({
-    //   resourceName: azureResourceName,
-    //   apiKey: azureResourceNameApiKey,
-    //   headers: {
-    //     'api_version': '2024-11-20',
-    //   },
+    const azureResourceName = process.env.AZURE_RESOURCE_NAME;
+    const azureResourceNameApiKey = process.env.AZURE_RESOURCE_NAME_API_KEY;
+    const azure = createAzure({
+      resourceName: azureResourceName,
+      apiKey: azureResourceNameApiKey,
+      headers: {
+        api_version: '2024-11-20',
+      },
+    });
+
+    // `
+    //   For all designs I ask you to make, have them be beautiful, not cookie cutter. Make webpages that are fully featured and worthy for production.
+    //   By default, this template supports JSX syntax with Tailwind CSS classes, React hooks, and Lucide React for icons. Do not install other packages for UI themes, icons, etc unless absolutely necessary or I request them.
+    //   Use icons from lucide-react for logos.
+    //   Use stock photos from unsplash where appropriate, only valid URLs you know exist. Do not download the images, only link to them in image tags.
+    // `;
+
+    return _streamText({
+      // model: azure('gpt-4o'),
+      model: azure('gpt-4o-2'),
+      system: getSystemPrompt(),
+      messages: convertToCoreMessages(messages),
+      maxTokens: 8192,
+      ...options,
+    });
+
+    // const ollama = createOllama({
+    //   baseURL: 'http://localhost:11434/api',
     // });
 
     // return _streamText({
-    //   // model: azure('gpt-4o'),
-    //   model: azure('gpt-4o-2'),
+    //   // model: ollama('llava'),
+    //   // model: ollama('deepseek-r1:7b'),
+    //   model: ollama('deepseek-r1:70b'),
     //   system: getSystemPrompt(),
     //   messages: convertToCoreMessages(messages),
     //   maxTokens: MAX_TOKENS,
     //   ...options,
     // });
-
-    const ollama = createOllama({
-      baseURL: 'http://localhost:11434/api',
-    });
-
-    return _streamText({
-      // model: ollama('llava'),
-      // model: ollama('deepseek-r1:7b'),
-      model: ollama('deepseek-r1:70b'),
-      system: getSystemPrompt(),
-      messages: convertToCoreMessages(messages),
-      maxTokens: MAX_TOKENS,
-      ...options,
-    });
 
     // const anthropic = createAnthropic({
     //   apiKey: getAPIKey(env),
