@@ -112,6 +112,17 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                     ref={textareaRef}
                     className={`w-full pl-4 pt-4 pr-16 focus:outline-none resize-none text-md text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent`}
                     onKeyDown={(event) => {
+                      if (event.key === 'Tab') {
+                        event.preventDefault();
+                        const idx = event.target.selectionStart;
+                        if (idx !== null) {
+                          const start = event.target.value.substring(0, idx);
+                          const back = event.target.value.substring(idx);
+                          event.target.value = `${start}    ${back}`;
+                          event.target.setSelectionRange(idx + 4, idx + 4);
+                        }
+                        return;
+                      }
                       if (event.key === 'Enter') {
                         if (event.shiftKey) {
                           return;
