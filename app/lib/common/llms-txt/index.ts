@@ -22,6 +22,7 @@ const DOCS_DIR = path.join(process.cwd(), 'app', 'lib', 'common', 'llms-txt');
 function loadDocsConfig(): DocsConfig {
   const configPath = path.join(DOCS_DIR, 'docs.json');
   const configData = fs.readFileSync(configPath, 'utf8');
+
   return JSON.parse(configData) as DocsConfig;
 }
 
@@ -29,6 +30,7 @@ function loadDocsConfig(): DocsConfig {
 function getLibraryDocs(library: Library): string | null {
   try {
     const docPath = path.join(DOCS_DIR, library.docFile);
+
     if (fs.existsSync(docPath)) {
       return fs.readFileSync(docPath, 'utf8');
     }
@@ -48,7 +50,7 @@ function isLibraryMentioned(prompt: string, library: Library): boolean {
 export function detectLibrariesFromChatHistory(messages: Messages): Library[] {
   const config = loadDocsConfig();
   const detectedLibraries = new Set<Library>();
-  
+
   // check each message for library mentions
   for (const message of messages) {
     for (const library of config.libraries) {
@@ -57,7 +59,7 @@ export function detectLibrariesFromChatHistory(messages: Messages): Library[] {
       }
     }
   }
-  
+
   return Array.from(detectedLibraries);
 }
 
@@ -65,19 +67,20 @@ export function detectLibrariesFromChatHistory(messages: Messages): Library[] {
 export function enhancePromptWithLibraryDocumentation(prompt: string, libraries: Library[]): string {
   try {
     let enhancedPrompt = prompt;
-    
+
     // add documentation for each detected library
     for (const library of libraries) {
       const docs = getLibraryDocs(library);
+
       if (docs) {
         // add the documentation in a standardized format
         enhancedPrompt += `\n\n## ${library.name} Documentation\n${docs}\n`;
       }
     }
-    
+
     return enhancedPrompt;
   } catch (error) {
     console.error('Error enhancing prompt with docs:', error);
     return prompt; // return the original prompt if there's an error
   }
-} 
+}
