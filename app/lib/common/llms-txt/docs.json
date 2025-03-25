@@ -1,0 +1,26 @@
+{
+  "libraries": [
+    {
+      "name": "Fireproof",
+      "keywords": [
+        "fireproof",
+        "fireproof db",
+        "use-fireproof"
+      ],
+      "docSource": "https://use-fireproof.com/llms.txt",
+      "docFile": "docs/fireproof.txt",
+      "lastUpdated": "2025-03-25"
+    },
+    {
+      "name": "CallAI",
+      "keywords": [
+        "callai",
+        "call-ai",
+        "AI helper"
+      ],
+      "docSource": "https://use-fireproof.com/callai-llms.txt",
+      "docFile": "docs/callai.txt",
+      "lastUpdated": "2025-03-25"
+    }
+  ]
+}
