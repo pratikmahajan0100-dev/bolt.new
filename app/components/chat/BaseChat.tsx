@@ -7,6 +7,7 @@ import { Workbench } from '~/components/workbench/Workbench.client';
 import { classNames } from '~/utils/classNames';
 import { Messages } from './Messages.client';
 import { SendButton } from './SendButton.client';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'; // Import SpeechRecognition
 
 import styles from './BaseChat.module.scss';
 
@@ -58,6 +59,17 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
     ref,
   ) => {
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
+
+    // SpeechRecognition hooks
+    const { transcript, listening, resetTranscript } = useSpeechRecognition();
+    
+    const handleStartListening = () => {
+        SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+    };
+
+    const handleStopListening = () => {
+        SpeechRecognition.stopListening();
+    };
 
     return (
       <div
@@ -122,7 +134,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                         sendMessage?.(event);
                       }
                     }}
-                    value={input}
+                    value={input || transcript}
                     onChange={(event) => {
                       handleInputChange?.(event);
                     }}
