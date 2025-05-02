@@ -43,12 +43,28 @@ export function streamText(messages: Messages, env: Env, options?: StreamingOpti
     //   Use stock photos from unsplash where appropriate, only valid URLs you know exist. Do not download the images, only link to them in image tags.
     // `;
 
+    // return _streamText({
+    //   // model: azure('gpt-4o'),
+    //   model: azure('gpt-4o-2'),
+    //   system: getSystemPrompt(),
+    //   messages: convertToCoreMessages(messages),
+    //   maxTokens: 8192,
+    //   ...options,
+    // });
+
+    const anthropic = createAnthropic({
+      baseURL: process.env.RAKUTEN_AI_ANTHROPIC_URL,
+      apiKey: 'test',
+    });
+
     return _streamText({
-      // model: azure('gpt-4o'),
-      model: azure('gpt-4o-2'),
+      model: anthropic('claude-3-7-sonnet-20250219'),
       system: getSystemPrompt(),
+      maxTokens: 16384,
+      headers: {
+        Authorization: `Bearer ${process.env.RAKUTEN_AI_GATEWAY_KEY}`,
+      },
       messages: convertToCoreMessages(messages),
-      maxTokens: 8192,
       ...options,
     });
 
