@@ -1,3 +1,49 @@
+# Bolt Project
+
+## Copyright Notice
+
+Copyright (c) 2024 Ervin Remus Radosavlevici  
+All rights reserved.  
+Contact: radosavlevici.ervin@gmail.com
+
+## Overview
+
+Bolt is a secure development environment with enhanced security features and protections.
+
+## Security Features
+
+- Enhanced encryption system with AES-GCM and PBKDF2
+- Secure authentication system with session management
+- Security middleware with headers and rate limiting
+- Secure storage utilities for sensitive data
+- Login system with brute force protection
+- Security components (password strength meter, 2FA)
+- Security utility functions for threat detection
+
+## Protection Measures
+
+This repository is protected by:
+
+- Copyright notices in all files
+- Automated copyright header checks
+- Security scanning for vulnerabilities
+- Issue templates for reporting security issues
+- Clear attribution and ownership
+
+## License
+
+This project is protected by copyright law. Unauthorized use, modification, or distribution is prohibited.
+
+## Contact
+
+For inquiries regarding this project, please contact:  
+Ervin Remus Radosavlevici  
+Email: radosavlevici.ervin@gmail.com
+
+
+## Original Documentation
+
+
 [![Bolt.new: AI-Powered Full-Stack Web Development in the Browser](./public/social_preview_index.jpg)](https://bolt.new)
 
 # Bolt.new: AI-Powered Full-Stack Web Development in the Browser
