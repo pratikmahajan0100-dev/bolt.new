@@ -1,0 +1,27 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Protect sensitive files
+app/lib/crypto.ts linguist-vendored
+app/lib/auth.ts linguist-vendored
+app/middleware/security.ts linguist-vendored
+app/utils/secureStorage.ts linguist-vendored
+app/utils/securityUtils.ts linguist-vendored
+
+# Mark files as binary to prevent git from trying to merge them
+*.key binary
+*.pem binary
+*.p12 binary
+*.pfx binary
+*.jks binary
+
+# Enforce specific file attributes
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.scss linguist-language=SCSS
+*.css linguist-language=CSS
+
+# Copyright protection
+LICENSE linguist-documentation
