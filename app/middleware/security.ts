@@ -1,3 +1,9 @@
+/**
+ * Security middleware
+ * Copyright (c) 2024 Ervin Remus Radosavlevici
+ * All rights reserved.
+ */
+
 import type { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/cloudflare';
 import { createScopedLogger } from '~/utils/logger';
 

@@ -1,3 +1,9 @@
+/**
+ * Secure storage utilities
+ * Copyright (c) 2024 Ervin Remus Radosavlevici
+ * All rights reserved.
+ */
+
 import { encrypt, decrypt } from '~/lib/crypto';
 import { createScopedLogger } from './logger';
 

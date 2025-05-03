@@ -1,3 +1,9 @@
+/**
+ * Enhanced encryption utilities
+ * Copyright (c) 2024 Ervin Remus Radosavlevici
+ * All rights reserved.
+ */
+
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const IV_LENGTH = 16;
