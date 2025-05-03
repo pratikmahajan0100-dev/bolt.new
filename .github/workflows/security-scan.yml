@@ -1,0 +1,69 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci || npm install
+        
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+        
+      - name: Check for sensitive data
+        run: |
+          echo "Checking for sensitive data in repository..."
+          
+          # Check for potential API keys, tokens, passwords
+          SENSITIVE_PATTERNS=(
+            "api[_-]?key"
+            "auth[_-]?token"
+            "password"
+            "secret"
+            "BEGIN (RSA|DSA|EC|OPENSSH) PRIVATE KEY"
+          )
+          
+          FOUND_SENSITIVE=false
+          
+          for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+            RESULTS=$(grep -r -i -E "$pattern" --include="*.{js,ts,json,yml,yaml,env}" . || true)
+            
+            if [ ! -z "$RESULTS" ]; then
+              echo "⚠️ Potential sensitive data found matching pattern: $pattern"
+              echo "Please review these files and ensure no secrets are committed."
+              FOUND_SENSITIVE=true
+            fi
+          done
+          
+          if [ "$FOUND_SENSITIVE" = true ]; then
+            echo "⚠️ WARNING: Potential sensitive data detected in repository."
+            echo "This is a security risk. Please review and remove any secrets."
+            echo "For more information, contact: radosavlevici.ervin@gmail.com"
+          else
+            echo "✅ No obvious sensitive data detected."
+          fi
+          
+      - name: Security notice
+        run: |
+          echo "SECURITY NOTICE"
+          echo "=============="
+          echo "This code is protected by copyright law."
+          echo "Copyright (c) 2024 Ervin Remus Radosavlevici"
+          echo "All rights reserved."
+          echo "Contact: radosavlevici.ervin@gmail.com"

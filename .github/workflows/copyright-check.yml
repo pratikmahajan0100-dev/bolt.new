@@ -1,0 +1,54 @@
+name: Copyright Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  copyright-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for copyright headers
+        run: |
+          echo "Checking for copyright headers in changed files..."
+          
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '\.(ts|tsx|js|jsx|css|scss)$' || true)
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No relevant files changed."
+            exit 0
+          fi
+          
+          # Check each file for copyright header
+          MISSING_COPYRIGHT=()
+          
+          for file in $CHANGED_FILES; do
+            if [ -f "$file" ]; then
+              if ! grep -q "Copyright (c) [0-9]\{4\} Ervin Remus Radosavlevici" "$file"; then
+                MISSING_COPYRIGHT+=("$file")
+              fi
+            fi
+          done
+          
+          # Report results
+          if [ ${#MISSING_COPYRIGHT[@]} -ne 0 ]; then
+            echo "The following files are missing copyright headers:"
+            for file in "${MISSING_COPYRIGHT[@]}"; do
+              echo "- $file"
+            done
+            echo "Please add the following header to these files:"
+            echo "/**"
+            echo " * Copyright (c) 2024 Ervin Remus Radosavlevici"
+            echo " * All rights reserved."
+            echo " */"
+            exit 1
+          else
+            echo "All changed files have proper copyright headers."
+          fi
