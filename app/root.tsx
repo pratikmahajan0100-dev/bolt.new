@@ -1,11 +1,15 @@
 import { useStore } from '@nanostores/react';
-import type { LinksFunction } from '@remix-run/cloudflare';
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/cloudflare';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import tailwindReset from '@unocss/reset/tailwind-compat.css?url';
 import { themeStore } from './lib/stores/theme';
 import { stripIndents } from './utils/stripIndent';
 import { createHead } from 'remix-island';
 import { useEffect } from 'react';
+import { getUserFromSession } from './lib/auth';
+import { applySecurityHeaders } from './middleware/security';
+import { json } from '@remix-run/cloudflare';
+import { ToastContainer } from 'react-toastify';
 
 import reactToastifyStyles from 'react-toastify/dist/ReactToastify.css?url';
 import globalStyles from './styles/index.scss?url';
@@ -78,6 +82,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  // Get user from session if available
+  const user = await getUserFromSession(request);
+  
+  // Return user data and apply security headers
+  return applySecurityHeaders(
+    json({
+      user: user ? { id: user.userId, authenticated: user.authenticated } : null,
+    })
+  );
+}
+
 export default function App() {
-  return <Outlet />;
+  const { user } = useLoaderData<typeof loader>();
+  
+  return (
+    <>
+      <Outlet context={{ user }} />
+      <ToastContainer position="bottom-right" />
+    </>
+  );
 }
