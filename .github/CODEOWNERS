@@ -1,0 +1,17 @@
+# This file defines code ownership for this repository
+# Each line is a file pattern followed by one or more owners
+
+# Default owners for everything in the repo
+* @radosavlevici
+
+# Security-related files have specific ownership
+/app/lib/crypto.ts @radosavlevici
+/app/lib/auth.ts @radosavlevici
+/app/middleware/security.ts @radosavlevici
+/app/utils/secureStorage.ts @radosavlevici
+/app/utils/securityUtils.ts @radosavlevici
+/app/components/security/ @radosavlevici
+/app/routes/login.tsx @radosavlevici
+/COPYRIGHT @radosavlevici
+/SECURITY.md @radosavlevici
+/.gitattributes @radosavlevici
