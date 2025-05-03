@@ -18,6 +18,7 @@ import { applySecurityHeaders } from './middleware/security';
 import { json } from '@remix-run/cloudflare';
 import { ToastContainer } from 'react-toastify';
 import { validateCodeOwnership } from './lib/protection';
+import './lib/autoProtect'; // Import automatic protection system
 
 import reactToastifyStyles from 'react-toastify/dist/ReactToastify.css?url';
 import globalStyles from './styles/index.scss?url';
