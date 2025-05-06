@@ -25,7 +25,7 @@ export function streamText(
   messages: Messages,
   env: Env,
   options?: StreamingOptions,
-  provider: 'openai' | 'anthropic' = 'openai',
+  provider: 'openai' | 'anthropic' = 'anthropic',
 ) {
   return _streamText({
     model: getModel(provider=provider, getAPIKey(env, provider)),
