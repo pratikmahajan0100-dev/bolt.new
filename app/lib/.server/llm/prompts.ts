@@ -1041,7 +1041,7 @@ As a reminder, all API endpoints are at https://staging.impromptu-labs.com .
 - 'filter': Filter a list based on conditions
 `;
 
-export const INJECTED_PROMPT_1 = stripIndents`[INJECTED_PROMPT_1] 
+export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_1] 
 Please review this API spec and be absolutely sure that you are calling those functions with the appropriate data formats, for example ensuring that you are sending object_name values, encapsulating input correctly in json, and using the exact function endpoints as they were defined.
 As a reminder, all API endpoints are at https://staging.impromptu-labs.com .
 
@@ -1084,6 +1084,7 @@ And remember the actual API functions you have access to, and what they expect:
 Ensure that the necessary input and output controls are present to allow the user to run this code, sending in what they need to at the time.
 Please also echo the exact API calls to teh screen for debuging as they happen.
 Also, please add a green button to show the results, and a red button that will delete the objects produced by the code.
+Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
 `;
 
 export const INJECTED_PROMPT_1_OLD = stripIndents`[INJECTED_PROMPT_1] 
@@ -1141,7 +1142,7 @@ Deletes an object and all its data.
 // • Interface - A button for each API-calling step, with an indicator that shows when each step is finished and the result.`;
 
 
-export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_2] Change the style of the app using the set of instructions below that are most relevant to the user task:
+export const INJECTED_PROMPT_1 = stripIndents`[INJECTED_PROMPT_2] Change the style of the app using the set of instructions below that are most relevant to the user task:
 
 (For screens where users upload documents, extract structured data, and view outputs):
 Generate a three-step Upload & Extract flow for seed-to-Series-B small-business brands.
@@ -1168,5 +1169,5 @@ Design a three-column layout on desktop, single-column on mobile, for Upload + P
 (General - for all workflows)
 Do not use MUI icons, they break in this environment.
 Please ensure that all text and windows have good contrast against their background.
-Remember to re-install and run npm run dev after any changes.
+Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
 `;
