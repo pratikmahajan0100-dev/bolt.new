@@ -28,11 +28,11 @@ interface BaseChatProps {
 }
 
 const EXAMPLE_PROMPTS = [
-  { text: 'Build a todo app in React using Tailwind' },
-  { text: 'Build a simple blog using Astro' },
-  { text: 'Create a cookie consent form using Material UI' },
-  { text: 'Make a space invaders game' },
-  { text: 'How do I center a div?' },
+  { text: 'Build a chatbot for your enterprise users' },
+  { text: 'Build a AI Finance App' },
+  { text: 'Build an app that writes grants' },
+  { text: 'Build an app that summarizes insights for engineering execs' },
+  { text: 'Build an SEO app that researches keywords every week' },
 ];
 
 const TEXTAREA_MIN_HEIGHT = 76;
@@ -74,10 +74,10 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
             {!chatStarted && (
               <div id="intro" className="mt-[26vh] max-w-chat mx-auto">
                 <h1 className="text-5xl text-center font-bold text-bolt-elements-textPrimary mb-2">
-                  Pipeline Builder
+                  Build an AI Application Agenticly
                 </h1>
                 <p className="mb-4 text-center text-bolt-elements-textSecondary">
-                  Data Extraction, Processing, Browser Operations and More.
+                  Build full enterprise-grade AI applications, not just static websites, with your personal AI engineer.
                 </p>
               </div>
             )}
