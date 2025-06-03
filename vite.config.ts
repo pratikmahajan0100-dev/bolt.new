@@ -11,7 +11,8 @@ export default defineConfig((config) => {
       target: 'esnext',
     },
     server: {
-      port: 8080 // change here
+      port: 8080, // change here
+      allowedHosts: ['staging.impromptu-labs.com','localhost']
     },
     plugins: [
       nodePolyfills({
