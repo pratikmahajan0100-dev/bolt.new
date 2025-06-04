@@ -358,6 +358,41 @@ Only do this once when you know everything you need to, and include a plan using
            }],
 - 'DELETE /objects/{object_name}': Delete a data object
 
+### 4. Agent Creation
+
+Make a new agent: /create-agent'
+**Purpose**: Create a new chatbot to handle a specific question or problem
+**Method**: POST
+**Parameters**:
+- 'instructions' (string): Brief description of what the chatbot or agent should accomplish.
+- 'agent_name' (string): What this agent calls itself in conversation.
+**Returned Values**
+- 'agent_id' (string): ID for using this agent.
+
+**Example Usage**:
+{
+  "instructions": """You are a professional data processing assistant for Impromptu Labs.
+  You help users store, manage, and process data using our MongoDB system.""",
+  "agent_name": "Data Processing Assistant"
+}
+
+
+Talk to an existing agent: /chat'
+**Purpose**: Continue the conversation with an agent
+**Method**: POST
+**Parameters**:
+- 'agent_id' (string): The system name for the agent, returned from create-agent
+- 'message' (string): Input text to send to the agent.
+**Returned Values**
+- 'response' (string): The text response from the agent.
+
+**Example Usage**:
+{
+  "agent_id": agent_id,
+  "message": "Hi! I'm new to this system. Can you help me understand how to store data?"
+}
+
+
 ## Problem-Solving Approach
 When a user presents a problem, follow this systematic approach:
 
