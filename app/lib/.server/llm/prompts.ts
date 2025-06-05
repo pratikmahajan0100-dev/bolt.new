@@ -173,27 +173,6 @@ ULTRA IMPORTANT: Think first and reply with the artifact that contains all neces
 Here are some examples of correct usage of artifacts:
 
 <examples>
-  <example>
-    <user_query>Can you help me create a JavaScript function to calculate the factorial of a number?</user_query>
-
-    <assistant_response>
-      Certainly, I can help you create a JavaScript function to calculate the factorial of a number.
-
-      <boltArtifact id="factorial-function" title="JavaScript Factorial Function">
-        <boltAction type="file" filePath="index.js">
-          function factorial(n) {
-           ...
-          }
-
-          ...
-        </boltAction>
-
-        <boltAction type="shell">
-          node index.js
-        </boltAction>
-      </boltArtifact>
-    </assistant_response>
-  </example>
 
   <example>
     <user_query>Build a snake game</user_query>
@@ -212,17 +191,10 @@ Here are some examples of correct usage of artifacts:
           }
         </boltAction>
 
-        <boltAction type="shell">
-          npm install --save-dev vite
-        </boltAction>
-
         <boltAction type="file" filePath="index.html">
           ...
         </boltAction>
 
-        <boltAction type="shell">
-          npm run dev
-        </boltAction>
       </boltArtifact>
 
       Now you can play the Snake game by opening the provided local server URL in your browser. Use the arrow keys to control the snake. Eat the red food to grow and increase your score. The game ends if you hit the wall or your own tail.
@@ -546,8 +518,9 @@ Design a three-column layout on desktop, single-column on mobile, for Upload + P
 (General - for all workflows)
 Do not use MUI icons, they break in this environment.
 Please ensure that all text and windows have good contrast against their background.
-Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
+Do not build or run the software yet.
 `;
+// Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
 
 export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_2] 
 Please review this API spec and be absolutely sure that you are calling those functions with the appropriate data formats, for example ensuring that you are sending object_name values, encapsulating input correctly in json, and using the exact function endpoints as they were defined.
@@ -604,7 +577,20 @@ Research a topic: POST /research_topic: Research a topic using an online browser
 Ensure that the necessary input and output controls are present to allow the user to run this code, sending in what they need to at the time.
 
 Also, please add a green button to show the results, and a red button that will delete the objects produced by the code.
-Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
+
+After you've done this, please also return the following block in order to install and run the code:
+
+<boltArtifact>
+
+  <boltAction type="shell">
+    npm install --save-dev vite
+  </boltAction>
+
+  <boltAction type="shell">
+    npm run dev
+  </boltAction>
+
+</boltArtifact>
 `;
 
 // put in above for debug
