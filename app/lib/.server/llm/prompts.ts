@@ -302,7 +302,7 @@ Only do this once when you know everything you need to, and include a plan using
 
 ### 4. Agent Creation
 
-Make a new agent: /create-agent'
+Make a new agent: /create-agent
 **Purpose**: Create a new chatbot to handle a specific question or problem
 **Method**: POST
 **Parameters**:
@@ -318,7 +318,7 @@ Make a new agent: /create-agent'
   "agent_name": "Data Processing Assistant"
 }
 
-Talk to an existing agent: /chat'
+Talk to an existing agent: /chat
 **Purpose**: Continue the conversation with an agent
 **Method**: POST
 **Parameters**:
@@ -534,9 +534,9 @@ And remember the actual API functions you have access to, and what they expect:
 
 ### 4. Agent Creation
 
-Make a new agent: POST /create-agent': Create a new chatbot to handle a specific question or problem.
+Make a new agent: POST /create-agent: Create a new chatbot to handle a specific question or problem.
 
-Talk to an existing agent: POST /chat': Continue the conversation with an agent
+Talk to an existing agent: POST /chat: Continue the conversation with an agent
 
 ### 5. Browser Use and Internet Search
 
