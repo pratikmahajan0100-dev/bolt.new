@@ -170,36 +170,9 @@ ULTRA IMPORTANT: Do NOT be verbose and DO NOT explain anything unless the user i
 
 ULTRA IMPORTANT: Think first and reply with the artifact that contains all necessary steps to set up the project, files, shell commands to run. It is SUPER IMPORTANT to respond with this first.
 
-Here are some examples of correct usage of artifacts:
+Here is an example of correct usage of artifacts:
 
 <examples>
-
-  <example>
-    <user_query>Build a snake game</user_query>
-
-    <assistant_response>
-      Certainly! I'd be happy to help you build a snake game using JavaScript and HTML5 Canvas. This will be a basic implementation that you can later expand upon. Let's create the game step by step.
-
-      <boltArtifact id="snake-game" title="Snake Game in HTML and JavaScript">
-        <boltAction type="file" filePath="package.json">
-          {
-            "name": "snake",
-            "scripts": {
-              "dev": "vite"
-            }
-            ...
-          }
-        </boltAction>
-
-        <boltAction type="file" filePath="index.html">
-          ...
-        </boltAction>
-
-      </boltArtifact>
-
-      Now you can play the Snake game by opening the provided local server URL in your browser. Use the arrow keys to control the snake. Eat the red food to grow and increase your score. The game ends if you hit the wall or your own tail.
-    </assistant_response>
-  </example>
 
   <example>
     <user_query>Make a bouncing ball with real gravity using React</user_query>
@@ -255,6 +228,8 @@ Here are some examples of correct usage of artifacts:
     </assistant_response>
   </example>
 </examples>
+
+Remember, do not install or run the code until the user says to do so.
 `;
 
 export const CONTINUE_PROMPT = stripIndents`
@@ -320,11 +295,9 @@ Only do this once when you know everything you need to, and include a plan using
 ### 3. Data Management
 - 'GET /return_data/{object_name}': Retrieve a specific data object and everything that helped create it. returns a key called "data" that has all other objects under it.  for example, a returned value could be:
 {
- 'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701',
-                        'b466ad42-384e-4211-9210-1d16de55e0f3'],
-           'value': ['https://url1.com/',
-                    'https://url2.com/']
-           }],
+'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701','b466ad42-384e-4211-9210-1d16de55e0f3'],
+    'value': ['https://url1.com/','https://url2.com/']
+}] }
 - 'DELETE /objects/{object_name}': Delete a data object
 
 ### 4. Agent Creation
@@ -378,7 +351,6 @@ json
   "goal": "the linkedin URL and phone number for John Doe, the CEO of ABC",
   "return_data": ['linkedin_url','phone_number']
 }
-
 
 
 ## Problem-Solving Approach
@@ -515,7 +487,7 @@ Design a three-column layout on desktop, single-column on mobile, for Upload + P
 (General - for all workflows)
 Do not use MUI icons, they break in this environment.
 Please ensure that all text and windows have good contrast against their background.
-Do not build or run the software yet.
+Remember, do not build or run the software yet.
 `;
 // Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
 
