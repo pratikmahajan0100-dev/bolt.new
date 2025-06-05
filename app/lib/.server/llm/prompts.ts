@@ -249,9 +249,6 @@ Here are some examples of correct usage of artifacts:
           ...
         </boltAction>
 
-        <boltAction type="shell">
-          npm run dev
-        </boltAction>
       </boltArtifact>
 
       You can now view the bouncing ball animation in the preview. The ball will start falling from the top of the screen and bounce realistically when it hits the bottom.
