@@ -587,7 +587,7 @@ After you've done this, please also return the following block in order to insta
     npm run dev
   </boltAction>
 
-</boltArtifact>
+</boltArtifact> 
 `;
 
 // put in above for debug
