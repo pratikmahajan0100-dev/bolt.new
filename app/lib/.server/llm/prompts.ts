@@ -376,7 +376,6 @@ Make a new agent: /create-agent'
   "agent_name": "Data Processing Assistant"
 }
 
-
 Talk to an existing agent: /chat'
 **Purpose**: Continue the conversation with an agent
 **Method**: POST
@@ -391,6 +390,26 @@ Talk to an existing agent: /chat'
   "agent_id": agent_id,
   "message": "Hi! I'm new to this system. Can you help me understand how to store data?"
 }
+
+### 5. Browser Use and Internet Search
+
+Research a topic: /research_topic
+**Purpose**: Research a topic using an online browser to find information through web search.
+**Method**: POST
+**Parameters**:
+- goal (string): A desired goal to achieve, describing what information you want to find.
+- return_data (list of strings): List of specific data elements that should be returned from the research.
+**Returned Values**
+- output_data (dict): Dictionary containing the research results with the requested information.
+- status (string): Status of the research operation.
+
+**Example Usage**:
+json
+{
+  "goal": "the linkedin URL and phone number for John Doe, the CEO of ABC",
+  "return_data": ['linkedin_url','phone_number']
+}
+
 
 
 ## Problem-Solving Approach
@@ -569,6 +588,18 @@ And remember the actual API functions you have access to, and what they expect:
  so please note that 'value' is already parsed properly, and will generally be an array already.
 
 - 'DELETE /objects/{object_name}': Delete a data object by name
+
+
+### 4. Agent Creation
+
+Make a new agent: POST /create-agent': Create a new chatbot to handle a specific question or problem.
+
+Talk to an existing agent: POST /chat': Continue the conversation with an agent
+
+### 5. Browser Use and Internet Search
+
+Research a topic: POST /research_topic: Research a topic using an online browser to find information through web search.
+
 
 Ensure that the necessary input and output controls are present to allow the user to run this code, sending in what they need to at the time.
 
