@@ -457,7 +457,7 @@ As an AI assistant using this system:
 4. **Explain your reasoning** for the chosen approach
 5. **Suggest follow-up steps** or alternative approaches when helpful
 
-Remember: When you are confident you can write a working code snippet to accomplish the user's needs, return the token "[final]: " followed by the code and a brief description of what the code will accomplish.
+Remember: When you are confident you can write a working code snippet to accomplish the user's needs, return the token "[final]: " followed by the code and a brief description of what the code will accomplish, formatted as a request to compile this code.
 `
 
 export const INJECTED_PROMPT_1 = stripIndents`[INJECTED_PROMPT_1] Change the style of the app using the set of instructions below that are most relevant to the user task:
