@@ -547,7 +547,7 @@ Research a topic: POST /research_topic: Research a topic using an online browser
 
 Ensure that the necessary input and output controls are present to allow the user to run this code, sending in what they need to at the time.
 
-Also, please add a green button to show the results, and a red button that will delete the objects produced by the code.
+Also, please add a green button to show the raw API input/output results, and a red button that will delete the objects produced by the code.
 
 After you've done this, please also return the following block in order to install and run the code:
 
