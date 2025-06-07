@@ -298,6 +298,8 @@ Only do this once when you know everything you need to, and include a plan using
 'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701','b466ad42-384e-4211-9210-1d16de55e0f3'],
     'value': ['https://url1.com/','https://url2.com/']
 }] }
+Note that the returned data is already in json/dict format and does not need to be parsed.
+
 - 'DELETE /objects/{object_name}': Delete a data object
 
 ### 4. Agent Creation
@@ -527,7 +529,7 @@ And remember the actual API functions you have access to, and what they expect:
                     'https://url2.com/']
            }],
  'object_name': 'organization_urls'} 
- so please note that 'value' is already parsed properly, and will generally be an array already.
+ Please note that 'value' is an array and does not need to be parsed.
 
 - 'DELETE /objects/{object_name}': Delete a data object by name
 
