@@ -489,12 +489,8 @@ Design a three-column layout on desktop, single-column on mobile, for Upload + P
 (General - for all workflows)
 Do not use MUI icons, they break in this environment.
 Please ensure that all text and windows have good contrast against their background.
-Remember, do not build or run the software yet.
-`;
-// Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
 
-export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_2] 
-Please review this API spec and be absolutely sure that you are calling those functions with the appropriate data formats, for example ensuring that you are sending object_name values, encapsulating input correctly in json, and using the exact function endpoints as they were defined.
+Also please review the API spec and be absolutely sure that you are calling those functions with the appropriate data formats, for example ensuring that you are sending object_name values, encapsulating input correctly in json, and using the exact function endpoints as they were defined.
 As a reminder, all API endpoints are at https://staging.impromptu-labs.com .
 
 And remember the actual API functions you have access to, and what they expect:
@@ -523,13 +519,12 @@ And remember the actual API functions you have access to, and what they expect:
 ### 3. Data Management
 - 'GET /return_data/{object_name}': Retrieve a specific data object and everything that helped create it. returns a key called "data" that has all other objects under it.  for example, a returned value could be:
 {
- 'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701',
-                        'b466ad42-384e-4211-9210-1d16de55e0f3'],
-           'value': ['https://url1.com/',
-                    'https://url2.com/']
-           }],
- 'object_name': 'organization_urls'} 
- Please note that 'value' is an array and does not need to be parsed.
+  'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701','b466ad42-384e-4211-9210-1d16de55e0f3'],
+    'value': ['https://url1.com/','https://url2.com/']
+    }],
+  'object_name': 'organization_urls'
+} 
+Please note that 'value' is an array and does not need to be parsed.
 
 - 'DELETE /objects/{object_name}': Delete a data object by name
 
@@ -549,7 +544,14 @@ Ensure that the necessary input and output controls are present to allow the use
 
 Also, please add a green button to show the raw API input/output results, and a red button that will delete the objects produced by the code.
 
-After you've done this, please also return the following block in order to install and run the code:
+Please also echo the exact API calls to the screen for debugging as they happen.
+`;
+// Remember to re-install and run npm run dev (using <boltAction type="shell"> ) after any changes.
+// Remember, do not build or run the software yet.
+
+export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_2] 
+
+If you have not done so yet, please return the following block in order to install and run the code:
 
 <boltArtifact>
 
