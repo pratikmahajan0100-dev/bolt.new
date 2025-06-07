@@ -295,10 +295,18 @@ Only do this once when you know everything you need to, and include a plan using
 ### 3. Data Management
 - 'GET /return_data/{object_name}': Retrieve a specific data object and everything that helped create it. returns a key called "data" that has all other objects under it.  for example, a returned value could be:
 {
-'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701','b466ad42-384e-4211-9210-1d16de55e0f3'],
-    'value': ['https://url1.com/','https://url2.com/']
-}] }
-Note that the returned data is already in json/dict format and does not need to be parsed.
+'data': [
+    {
+      'key_list': [...],
+      'value': ['https://url1.com/','https://url2.com/']
+    },
+    {
+      'key_list': [...],
+      'value': ['https://abc.com/','https://defg.com/']
+    }
+  ] 
+}
+Note that each returned 'value' array is already in json/dict format and does not need to be parsed. Expect "data" and each "value" element to be a list, appropriate to the task.
 
 - 'DELETE /objects/{object_name}': Delete a data object
 
@@ -519,12 +527,18 @@ And remember the actual API functions you have access to, and what they expect:
 ### 3. Data Management
 - 'GET /return_data/{object_name}': Retrieve a specific data object and everything that helped create it. returns a key called "data" that has all other objects under it.  for example, a returned value could be:
 {
-  'data': [{'key_list': ['c6785e9e-0854-48c2-b580-cc3071280701','b466ad42-384e-4211-9210-1d16de55e0f3'],
-    'value': ['https://url1.com/','https://url2.com/']
-    }],
-  'object_name': 'organization_urls'
-} 
-Please note that 'value' is an array and does not need to be parsed.
+'data': [
+    {
+      'key_list': [...],
+      'value': ['https://url1.com/','https://url2.com/']
+    },
+    {
+      'key_list': [...],
+      'value': ['https://abc.com/','https://defg.com/']
+    }
+  ] 
+}
+Note that each returned 'value' array is already in json/dict format and does not need to be parsed. Expect "data" and each "value" element to be a list, appropriate to the task
 
 - 'DELETE /objects/{object_name}': Delete a data object by name
 
