@@ -346,13 +346,13 @@ Talk to an existing agent: /chat
 ### 5. Browser Use and Internet Search
 
 Research a topic: /research_topic
-**Purpose**: Research a topic using an online browser to find information through web search.
+**Purpose**: Research a topic using an online browser to find information through web search. Starts a new research task and returns immediately with a task ID for tracking.
 **Method**: POST
 **Parameters**:
 - goal (string): A desired goal to achieve, describing what information you want to find.
 - return_data (list of strings): List of specific data elements that should be returned from the research.
 **Returned Values**
-- output_data (dict): Dictionary containing the research results with the requested information.
+- task_id (string): The API will immediately return a task_id. Keep this - you'll need it to get your results.
 - status (string): Status of the research operation.
 
 **Example Usage**:
@@ -362,8 +362,40 @@ json
   "return_data": ['linkedin_url','phone_number']
 }
 
+Response:
+json{
+  "task_id": "uuid-string",
+  "status": "pending"
+}
 
-## Problem-Solving Approach
+Check Research Task Status: GET /research_status/{task_id}
+**Purpose**: Check if your research task is complete and get results.
+Use the task ID to check periodically until the status changes from "pending" to "completed", "failed", or "timeout".
+Recommended polling pattern:
+Wait 30 seconds after starting the task
+Then check every 15-30 seconds
+Tasks typically complete within 2-10 minutes
+When status is "completed", the output_data field will contain your research results.
+
+Response (Pending):
+json{
+  "task_id": "uuid-string",
+  "status": "pending",
+}
+Response (Completed):
+json{
+  "task_id": "uuid-string",
+  "status": "completed",
+  "output_data": {
+    "research_results": "The returned information you requested is...."
+  },
+  "message": "Task completed successfully"
+}
+
+
+
+
+## General Problem-Solving Approach to using this API:
 When a user presents a problem, follow this systematic approach:
 
 ### Step 1: Analyze the Problem
