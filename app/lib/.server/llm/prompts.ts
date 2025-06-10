@@ -346,7 +346,7 @@ Talk to an existing agent: /chat
 ### 5. Browser Use and Internet Search
 
 Research a topic: /research_topic
-**Purpose**: Research a topic using an online browser to find information through web search. Starts a new research task and returns immediately with a task ID for tracking.
+**Purpose**: Begin Researching a topic using an online browser to find information through web search. Starts a new research task and returns immediately with a task ID for tracking. The actual answer is gotten later by using the /research_status/{task_id} endpoint.
 **Method**: POST
 **Parameters**:
 - goal (string): A desired goal to achieve, describing what information you want to find.
@@ -375,7 +375,7 @@ Recommended polling pattern:
 Wait 30 seconds after starting the task
 Then check every 15-30 seconds
 Tasks typically complete within 2-10 minutes
-When status is "completed", the output_data field will contain your research results.
+When status is "completed", the output_data field will contain your research results. Expect to wait for these results.
 
 Response (Pending):
 json{
@@ -583,7 +583,9 @@ Talk to an existing agent: POST /chat: Continue the conversation with an agent
 
 ### 5. Browser Use and Internet Search
 
-Research a topic: POST /research_topic: Research a topic using an online browser to find information through web search.
+Begin Researching a topic: POST /research_topic .  Begin Researching a topic using an online browser to find information through web search.
+
+Check and get research task status:  GET /research_status/{task_id} .  Check this every 15 or 30 seconds until the result is ready. When status is "completed", the output_data field will contain your research results. Expect to wait for these results.
 
 
 Ensure that the necessary input and output controls are present to allow the user to run this code, sending in what they need to at the time.
