@@ -562,15 +562,17 @@ And remember the actual API functions you have access to, and what they expect:
 'data': [
     {
       'key_list': [...],
-      'value': ['https://url1.com/','https://url2.com/']
+      'value': ['https://url1.com/','https://url2.com/'] // (note:  array, NOT A STRING)
     },
     {
       'key_list': [...],
-      'value': ['https://abc.com/','https://defg.com/']
+      'value': ['https://abc.com/','https://defg.com/']  // (note:  array, NOT A STRING)
     }
   ] 
 }
 Note that each returned 'value' array is already in json/dict format and does not need to be parsed. Expect "data" and each "value" element to be a list, appropriate to the task
+
+REMEMBER: each returned 'value' array from return_data is already in json/dict format and does not need to be parsed. Trying to use JSON.Parse() on these will break the program.
 
 - 'DELETE /objects/{object_name}': Delete a data object by name
 
@@ -600,7 +602,6 @@ Please also echo the exact API calls to the screen for debugging as they happen.
 export const INJECTED_PROMPT_2 = stripIndents`[INJECTED_PROMPT_2] 
 
 Please make sure that any research calls are properly constructed, with a call to research_topic and then a polling pattern using /research_status/{task_id} periodically until an answer is returned.
-
 remember that each returned 'value' array from return_data is already in json/dict format and does not need to be parsed. Trying to use JSON.Parse() on these will break the program.
 If you have not done so yet, please return the following block in order to install and run the code:
 
