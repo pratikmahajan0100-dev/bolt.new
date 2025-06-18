@@ -13,66 +13,70 @@ export default async function handleRequest(
   remixContext: EntryContext,
   _loadContext: AppLoadContext,
 ) {
-  const readable = await renderToReadableStream(<RemixServer context={remixContext} url={request.url} />, {
-    signal: request.signal,
-    onError(error: unknown) {
-      console.error(error);
-      responseStatusCode = 500;
-    },
-  });
+  try {
+    const stream = await renderToReadableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        signal: request.signal,
+        onError(error: unknown) {
+          console.error('Render error:', error);
+          responseStatusCode = 500;
+        },
+      },
+    );
 
-  const body = new ReadableStream({
-    start(controller) {
-      const head = renderHeadToString({ request, remixContext, Head });
+    const htmlStream = new ReadableStream({
+      async start(controller) {
+        try {
+          const head = renderHeadToString({ request, remixContext, Head });
 
-      controller.enqueue(
-        new Uint8Array(
-          new TextEncoder().encode(
-            `<!DOCTYPE html><html lang="en" data-theme="${themeStore.value}"><head>${head}</head><body><div id="root" class="w-full h-full">`,
-          ),
-        ),
-      );
+          controller.enqueue(
+            encodeString(
+              `<!DOCTYPE html><html lang="en" data-theme="${themeStore.value}"><head>${head}</head><body><div id="root" class="w-full h-full">`
+            )
+          );
 
-      const reader = readable.getReader();
+          const reader = stream.getReader();
 
-      function read() {
-        reader
-          .read()
-          .then(({ done, value }) => {
-            if (done) {
-              controller.enqueue(new Uint8Array(new TextEncoder().encode(`</div></body></html>`)));
-              controller.close();
-
-              return;
-            }
-
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
             controller.enqueue(value);
-            read();
-          })
-          .catch((error) => {
-            controller.error(error);
-            readable.cancel();
-          });
-      }
-      read();
-    },
+          }
 
-    cancel() {
-      readable.cancel();
-    },
-  });
+          controller.enqueue(encodeString(`</div></body></html>`));
+          controller.close();
+        } catch (err) {
+          controller.error(err);
+          stream.cancel();
+        }
+      },
 
-  if (isbot(request.headers.get('user-agent') || '')) {
-    await readable.allReady;
+      cancel() {
+        stream.cancel();
+      },
+    });
+
+  
+    if (isbot(request.headers.get('user-agent') || '')) {
+      await stream.allReady;
+    }
+
+    responseHeaders.set('Content-Type', 'text/html');
+    responseHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
+    responseHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
+
+    return new Response(htmlStream, {
+      status: responseStatusCode,
+      headers: responseHeaders,
+    });
+
+  } catch (error) {
+    console.error('Unhandled rendering error:', error);
+    return new Response('Internal Server Error', { status: 500 });
   }
+}
 
-  responseHeaders.set('Content-Type', 'text/html');
-
-  responseHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
-  responseHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
-
-  return new Response(body, {
-    headers: responseHeaders,
-    status: responseStatusCode,
-  });
+function encodeString(content: string): Uint8Array {
+  return new TextEncoder().encode(content);
 }
