@@ -9,11 +9,24 @@ export async function action(args: ActionFunctionArgs) {
 }
 
 async function chatAction({ context, request }: ActionFunctionArgs) {
-  const { messages } = await request.json<{ messages: Messages }>();
+  console.log('=== CHAT API DEBUG ===');
+  console.log('Request URL:', request.url);
+  console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+  
+  let messages: Messages;
+  try {
+    const body = await request.json<{ messages: Messages }>();
+    console.log('Request body:', body);
+    messages = body.messages;
+  } catch (jsonError) {
+    console.error('JSON parsing error:', jsonError);
+    throw new Response('Invalid JSON', { status: 400 });
+  }
 
   const stream = new SwitchableStream();
 
   try {
+    console.log('Creating streaming options...');
     const options: StreamingOptions = {
       toolChoice: 'none',
       onFinish: async ({ text: content, finishReason }) => {
@@ -38,9 +51,13 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       },
     };
 
+    console.log('Calling streamText with env:', !!context.cloudflare.env);
+    console.log('Environment check - ANTHROPIC_API_KEY exists:', !!(process.env.ANTHROPIC_API_KEY || context.cloudflare.env?.ANTHROPIC_API_KEY));
     const result = await streamText(messages, context.cloudflare.env, options);
+    console.log('streamText call successful, setting up stream...');
 
     stream.switchSource(result.toAIStream());
+    console.log('Stream setup complete, returning response...');
 
     return new Response(stream.readable, {
       status: 200,
@@ -49,7 +66,12 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error('=== CHAT API ERROR ===');
+    console.error('Error details:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
 
     throw new Response(null, {
       status: 500,
