@@ -248,4 +248,21 @@
   --bolt-elements-terminal-color-brightMagenta: var(--bolt-terminal-brightMagenta);
   --bolt-elements-terminal-color-brightCyan: var(--bolt-terminal-brightCyan);
   --bolt-elements-terminal-color-brightWhite: var(--bolt-terminal-brightWhite);
+
+  --font-orbitron: 'Orbitron', monospace;
+  --font-rajdhani: 'Rajdhani', sans-serif;
+}
+
+:root[data-theme='cyberpunk'] {
+  --background: #0A0A0A;
+  --foreground: #FAFAFA;
+  --card: #111111;
+  --cyan-neon: #00FFFF;
+  --magenta-neon: #FF00FF;
+  --green-neon: #00FF41;
+  --blue-dark: #0A0A0A;
+  --accent: #00FF41;
+  --border: #00FFFF;
+  --font-orbitron: 'Orbitron', monospace;
+  --font-rajdhani: 'Rajdhani', sans-serif;
 }

@@ -4,6 +4,8 @@ import React, { memo, type ReactNode } from 'react';
 import { classNames } from '~/utils/classNames';
 import { cubicEasingFn } from '~/utils/easings';
 import { IconButton } from './IconButton';
+import { useStore } from '@nanostores/react';
+import { themeStore } from '~/lib/stores/theme';
 
 export { Close as DialogClose, Root as DialogRoot } from '@radix-ui/react-dialog';
 
@@ -68,11 +70,13 @@ export const DialogButton = memo(({ type, children, onClick }: DialogButtonProps
 });
 
 export const DialogTitle = memo(({ className, children, ...props }: RadixDialog.DialogTitleProps) => {
+  const theme = useStore(themeStore);
   return (
     <RadixDialog.Title
       className={classNames(
         'px-5 py-4 flex items-center justify-between border-b border-bolt-elements-borderColor text-lg font-semibold leading-6 text-bolt-elements-textPrimary',
         className,
+        theme === 'cyberpunk' ? 'neon-glow' : '',
       )}
       {...props}
     >
@@ -97,9 +101,11 @@ interface DialogProps {
   className?: string;
   onBackdrop?: (event: React.UIEvent) => void;
   onClose?: (event: React.UIEvent) => void;
+  title: string;
 }
 
-export const Dialog = memo(({ className, children, onBackdrop, onClose }: DialogProps) => {
+export const Dialog = memo(({ className, children, onBackdrop, onClose, title }: DialogProps) => {
+  const theme = useStore(themeStore);
   return (
     <RadixDialog.Portal>
       <RadixDialog.Overlay onClick={onBackdrop} asChild>
@@ -122,10 +128,13 @@ export const Dialog = memo(({ className, children, onBackdrop, onClose }: Dialog
           exit="closed"
           variants={dialogVariants}
         >
-          {children}
-          <RadixDialog.Close asChild onClick={onClose}>
-            <IconButton icon="i-ph:x" className="absolute top-[10px] right-[10px]" />
-          </RadixDialog.Close>
+          <div className="dialog-container">
+            <h1 className={theme === 'cyberpunk' ? 'neon-glow' : ''}>{title}</h1>
+            {children}
+            <RadixDialog.Close asChild onClick={onClose}>
+              <IconButton icon="i-ph:x" className="absolute top-[10px] right-[10px]" />
+            </RadixDialog.Close>
+          </div>
         </motion.div>
       </RadixDialog.Content>
     </RadixDialog.Portal>

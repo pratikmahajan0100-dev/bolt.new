@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import './variables.scss';
 @import './z-index.scss';
 @import './animations.scss';
@@ -11,4 +12,95 @@ html,
 body {
   height: 100%;
   width: 100%;
+  font-family: var(--font-rajdhani, 'Rajdhani', sans-serif);
+}
+
+h1, h2, h3, h4, h5, h6, button, .button-primary, .button-secondary {
+  font-family: var(--font-orbitron, 'Orbitron', monospace);
+}
+
+[data-theme='cyberpunk'] body {
+  background: linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%);
+  color: var(--foreground);
+  font-family: var(--font-rajdhani, 'Rajdhani', sans-serif);
+  min-height: 100vh;
+}
+[data-theme='cyberpunk'] h1,
+[data-theme='cyberpunk'] h2,
+[data-theme='cyberpunk'] h3,
+[data-theme='cyberpunk'] h4,
+[data-theme='cyberpunk'] h5,
+[data-theme='cyberpunk'] h6 {
+  font-family: var(--font-orbitron, 'Orbitron', monospace);
+  color: var(--cyan-neon);
+  text-shadow: 0 0 10px var(--cyan-neon);
+}
+[data-theme='cyberpunk'] a {
+  color: var(--cyan-neon);
+  transition: color 0.3s;
+}
+[data-theme='cyberpunk'] a:hover {
+  color: var(--magenta-neon);
+  text-shadow: 0 0 10px var(--magenta-neon);
+}
+[data-theme='cyberpunk'] .neon-glow {
+  color: var(--cyan-neon);
+  text-shadow: 0 0 10px var(--cyan-neon);
+}
+[data-theme='cyberpunk'] .cyber-card {
+  background: var(--card);
+  border: 1.5px solid rgba(0,255,255,0.3);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.3);
+  padding: 2rem;
+}
+[data-theme='cyberpunk'] .button-primary {
+  background: transparent;
+  border: 2px solid var(--cyan-neon);
+  color: var(--cyan-neon);
+  font-family: var(--font-orbitron, 'Orbitron', monospace);
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+[data-theme='cyberpunk'] .button-primary:hover {
+  background: var(--cyan-neon);
+  color: #000;
+  box-shadow: 0 0 20px var(--cyan-neon);
+}
+[data-theme='cyberpunk'] .button-secondary {
+  border: 2px solid var(--magenta-neon);
+  color: var(--magenta-neon);
+}
+[data-theme='cyberpunk'] .button-secondary:hover {
+  background: var(--magenta-neon);
+  color: #000;
+}
+[data-theme='cyberpunk'] h1 {
+  font-size: 5rem;
+}
+[data-theme='cyberpunk'] h2 {
+  font-size: 3rem;
+}
+[data-theme='cyberpunk'] .cyber-card {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  [data-theme='cyberpunk'] h1 {
+    font-size: 3rem;
+  }
+  [data-theme='cyberpunk'] h2 {
+    font-size: 2rem;
+  }
+  [data-theme='cyberpunk'] .cyber-card {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  [data-theme='cyberpunk'] nav {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    gap: 1rem;
+  }
 }

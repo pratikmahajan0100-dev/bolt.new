@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 
-export type Theme = 'dark' | 'light';
+export type Theme = 'dark' | 'light' | 'cyberpunk';
 
 export const kTheme = 'bolt_theme';
 
@@ -25,11 +25,15 @@ function initStore() {
 
 export function toggleTheme() {
   const currentTheme = themeStore.get();
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
+  let newTheme: Theme;
+  if (currentTheme === 'dark') {
+    newTheme = 'light';
+  } else if (currentTheme === 'light') {
+    newTheme = 'cyberpunk';
+  } else {
+    newTheme = 'dark';
+  }
   themeStore.set(newTheme);
-
   localStorage.setItem(kTheme, newTheme);
-
   document.querySelector('html')?.setAttribute('data-theme', newTheme);
 }

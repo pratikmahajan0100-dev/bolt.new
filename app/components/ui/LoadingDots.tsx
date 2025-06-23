@@ -1,4 +1,6 @@
 import { memo, useEffect, useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { themeStore } from '~/lib/stores/theme';
 
 interface LoadingDotsProps {
   text: string;
@@ -6,6 +8,7 @@ interface LoadingDotsProps {
 
 export const LoadingDots = memo(({ text }: LoadingDotsProps) => {
   const [dotCount, setDotCount] = useState(0);
+  const theme = useStore(themeStore);
 
   useEffect(() => {
     const interval = setInterval(() => {

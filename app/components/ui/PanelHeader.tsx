@@ -1,5 +1,7 @@
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
+import { useStore } from '@nanostores/react';
+import { themeStore } from '~/lib/stores/theme';
 
 interface PanelHeaderProps {
   className?: string;
@@ -7,14 +9,13 @@ interface PanelHeaderProps {
 }
 
 export const PanelHeader = memo(({ className, children }: PanelHeaderProps) => {
+  const theme = useStore(themeStore);
   return (
-    <div
-      className={classNames(
-        'flex items-center gap-2 bg-bolt-elements-background-depth-2 text-bolt-elements-textSecondary border-b border-bolt-elements-borderColor px-4 py-1 min-h-[34px] text-sm',
-        className,
-      )}
-    >
-      {children}
+    <div className="flex items-center justify-between w-full">
+      <h2 className={theme === 'cyberpunk' ? 'neon-glow' : ''}>
+        {children}
+      </h2>
+      <div className="flex items-center gap-2">{children}</div>
     </div>
   );
 });
