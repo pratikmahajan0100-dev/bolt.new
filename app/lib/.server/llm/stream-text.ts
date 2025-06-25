@@ -5,6 +5,7 @@ import { getAPIKey } from '~/lib/.server/llm/api-key';
 import { getAnthropicModel } from '~/lib/.server/llm/model';
 
 interface ToolResult<Name extends string, Args, Result> {
+  state: 'result';
   toolCallId: string;
   toolName: Name;
   args: Args;
