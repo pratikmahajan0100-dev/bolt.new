@@ -1,3 +1,6 @@
+@use '../variables.scss' as *;
+@use '../z-index.scss' as *;
+
 [data-resize-handle] {
   position: relative;
 
