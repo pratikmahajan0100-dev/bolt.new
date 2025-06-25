@@ -46,12 +46,11 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
       },
     });
 
-    const transformedStream =
-      /*
-       * WARNING: toAIStream has been removed from streamText.
-       * See migration guide at https://sdk.vercel.ai/docs/migrations
-       */
-      result.toDataStream().pipeThrough(transformStream);
+    /*
+     * WARNING: toAIStream has been removed from streamText
+     * See migration guide at https://sdk.vercel.ai/docs/migrations
+     */
+    //   result.toDataStream().pipeThrough(transformStream);
 
     return result.toDataStreamResponse();
   } catch (error) {
