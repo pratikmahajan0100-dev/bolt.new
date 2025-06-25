@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { motion } from 'framer-motion';
+import * as React from 'react';
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
 import { cubicEasingFn } from '~/utils/easings';

@@ -35,8 +35,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         const result = await streamText(messages, context.cloudflare.env, options);
 
         return (
-          /* WARNING: toAIStream has been removed from streamText.
-           See migration guide at https://sdk.vercel.ai/docs/migrations */
+          /*
+           * WARNING: toAIStream has been removed from streamText.
+           * See migration guide at https://sdk.vercel.ai/docs/migrations
+           */
           stream.switchSource(result.toDataStream())
         );
       },
@@ -44,8 +46,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
     const result = await streamText(messages, context.cloudflare.env, options);
 
-    /* WARNING: toAIStream has been removed from streamText.
-     See migration guide at https://sdk.vercel.ai/docs/migrations */
+    /*
+     * WARNING: toAIStream has been removed from streamText.
+     * See migration guide at https://sdk.vercel.ai/docs/migrations
+     */
     stream.switchSource(result.toDataStream());
 
     return new Response(stream.readable, {
