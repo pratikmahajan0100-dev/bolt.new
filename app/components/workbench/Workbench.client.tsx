@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useStore } from '@nanostores/react';
 import { motion, type HTMLMotionProps, type Variants } from 'framer-motion';
 import { computed } from 'nanostores';
@@ -175,7 +176,7 @@ export const Workbench = memo(({ chatStarted, isStreaming }: WorkspaceProps) => 
 });
 
 interface ViewProps extends HTMLMotionProps<'div'> {
-  children: JSX.Element;
+  children: React.ReactElement;
 }
 
 const View = memo(({ children, ...props }: ViewProps) => {

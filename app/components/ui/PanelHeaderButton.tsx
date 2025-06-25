@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { memo } from 'react';
 import { classNames } from '~/utils/classNames';
 
@@ -5,7 +6,7 @@ interface PanelHeaderButtonProps {
   className?: string;
   disabledClassName?: string;
   disabled?: boolean;
-  children: string | JSX.Element | Array<JSX.Element | string>;
+  children: string | React.ReactElement | Array<React.ReactElement | string>;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 

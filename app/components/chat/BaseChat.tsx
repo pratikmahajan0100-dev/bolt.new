@@ -11,7 +11,7 @@ import { SendButton } from './SendButton.client';
 import styles from './BaseChat.module.scss';
 
 interface BaseChatProps {
-  textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined;
+  textareaRef?: React.RefObject<HTMLTextAreaElement | null> | undefined;
   messageRef?: RefCallback<HTMLDivElement> | undefined;
   scrollRef?: RefCallback<HTMLDivElement> | undefined;
   showChat?: boolean;
