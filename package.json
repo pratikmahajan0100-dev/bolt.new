@@ -56,7 +56,7 @@
     "@xterm/xterm": "^5.5.0",
     "ai": "^4.3.16",
     "date-fns": "^4.1.0",
-    "diff": "^5.2.0",
+    "diff": "^8.0.2",
     "framer-motion": "^12.19.1",
     "isbot": "^5.1.28",
     "istextorbinary": "^9.5.0",
@@ -77,7 +77,7 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@blitz/eslint-plugin": "0.1.0",
+    "@blitz/eslint-plugin": "0.1.4",
     "@cloudflare/workers-types": "^4.20241127.0",
     "@remix-run/dev": "^2.10.0",
     "@types/diff": "^7.0.2",
