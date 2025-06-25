@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs } from '@remix-run/cloudflare';
-import { StreamingTextResponse, parseStreamPart } from 'ai';
+import { parseDataStreamPart } from 'ai';
 import { streamText } from '~/lib/.server/llm/stream-text';
 import { stripIndents } from '~/utils/stripIndent';
 
@@ -38,7 +38,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
           .decode(chunk)
           .split('\n')
           .filter((line) => line !== '')
-          .map(parseStreamPart)
+          .map(parseDataStreamPart)
           .map((part) => part.value)
           .join('');
 
@@ -46,9 +46,11 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
       },
     });
 
-    const transformedStream = result.toAIStream().pipeThrough(transformStream);
+    const transformedStream = /* WARNING: toAIStream has been removed from streamText.
+     See migration guide at https://sdk.vercel.ai/docs/migrations */
+    result.toDataStream().pipeThrough(transformStream);
 
-    return new StreamingTextResponse(transformedStream);
+    return result.toDataStreamResponse();
   } catch (error) {
     console.log(error);
 

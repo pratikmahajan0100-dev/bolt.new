@@ -34,13 +34,19 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
         const result = await streamText(messages, context.cloudflare.env, options);
 
-        return stream.switchSource(result.toAIStream());
+        return (
+          /* WARNING: toAIStream has been removed from streamText.
+           See migration guide at https://sdk.vercel.ai/docs/migrations */
+          stream.switchSource(result.toDataStream())
+        );
       },
     };
 
     const result = await streamText(messages, context.cloudflare.env, options);
 
-    stream.switchSource(result.toAIStream());
+    /* WARNING: toAIStream has been removed from streamText.
+     See migration guide at https://sdk.vercel.ai/docs/migrations */
+    stream.switchSource(result.toDataStream());
 
     return new Response(stream.readable, {
       status: 200,
