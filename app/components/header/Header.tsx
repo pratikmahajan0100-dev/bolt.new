@@ -2,7 +2,7 @@ import { useStore } from '@nanostores/react';
 import { ClientOnly } from 'remix-utils/client-only';
 import { chatStore } from '~/lib/stores/chat';
 import { classNames } from '~/utils/classNames';
-import { HeaderActionButtons } from './HeaderActionButtons.client';
+import { ons } from './ons.client';
 import { ChatDescription } from '~/lib/persistence/ChatDescription.client';
 
 export function Header() {
@@ -31,7 +31,7 @@ export function Header() {
         <ClientOnly>
           {() => (
             <div className="mr-1">
-              <HeaderActionButtons />
+              <ons />
             </div>
           )}
         </ClientOnly>
