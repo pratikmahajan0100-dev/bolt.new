@@ -3,7 +3,7 @@
   "description": "StackBlitz AI Agent",
   "private": true,
   "license": "MIT",
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@10.12.3",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -20,7 +20,7 @@
     "preview": "pnpm run build && pnpm run start"
   },
   "engines": {
-    "node": ">=18.18.0"
+    "node": ">=22.14.0"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.39",
