@@ -4,10 +4,6 @@
   "installCommand": "pnpm install",
   "framework": "remix",
   "outputDirectory": "build",
-  "env": {
-    "MISTRAL_API_KEY": "@mistral_api_key",
-    "GROQ_API_KEY": "@groq_api_key"
-  },
   "functions": {
     "app/routes/api.*.ts": {
       "maxDuration": 30

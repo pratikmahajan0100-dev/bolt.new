@@ -66,8 +66,12 @@ npm i -g vercel
 vercel
 
 # Set environment variables
-vercel env add MISTRAL_API_KEY
-vercel env add GROQ_API_KEY
+vercel env add MISTRAL_API_KEY production
+vercel env add GROQ_API_KEY production
+
+# Set for preview environment too
+vercel env add MISTRAL_API_KEY preview
+vercel env add GROQ_API_KEY preview
 ```
 
 #### Option B: Using Vercel Dashboard
@@ -89,8 +93,13 @@ vercel env add GROQ_API_KEY
 
    | Name | Value | Environment |
    |------|-------|-------------|
-   | `MISTRAL_API_KEY` | Your Mistral API key | Production, Preview |
-   | `GROQ_API_KEY` | Your Groq API key | Production, Preview |
+   | `MISTRAL_API_KEY` | `your-actual-mistral-api-key` | Production, Preview |
+   | `GROQ_API_KEY` | `your-actual-groq-api-key` | Production, Preview |
+
+   **Important**: 
+   - Enter the actual API key values, not references
+   - Make sure to select both "Production" and "Preview" environments
+   - The variable names are case-sensitive
 
 4. **Deploy**
    - Click "Deploy"
@@ -109,10 +118,6 @@ The project includes a `vercel.json` file with the following configuration:
   "installCommand": "pnpm install",
   "framework": "remix",
   "outputDirectory": "build",
-  "env": {
-    "MISTRAL_API_KEY": "@mistral_api_key",
-    "GROQ_API_KEY": "@groq_api_key"
-  },
   "functions": {
     "app/routes/api.*.ts": {
       "maxDuration": 30
@@ -120,6 +125,8 @@ The project includes a `vercel.json` file with the following configuration:
   }
 }
 ```
+
+**Note**: Environment variables are set directly in the Vercel dashboard or CLI, not in the `vercel.json` file.
 
 ### AI Provider Fallback Logic
 
@@ -134,9 +141,20 @@ The project includes a `vercel.json` file with the following configuration:
 
 ## Troubleshooting
 
-### Common Issues
+### Environment Variable Issues
 
-1. **Build Failures**
+1. **"Secret does not exist" Error**
+   - This happens when environment variables are not set correctly
+   - Go to Project Settings → Environment Variables in Vercel dashboard
+   - Add `MISTRAL_API_KEY` and/or `GROQ_API_KEY` with actual values
+   - Redeploy the project
+
+2. **Variables Not Loading**
+   - Ensure variables are set for the correct environment (Production/Preview)
+   - Variable names must be exactly: `MISTRAL_API_KEY` and `GROQ_API_KEY`
+   - Redeploy after adding new environment variables
+
+3. **Build Failures**
    ```bash
    # Clear cache and rebuild
    pnpm clean
@@ -144,25 +162,36 @@ The project includes a `vercel.json` file with the following configuration:
    pnpm build
    ```
 
-2. **API Key Issues**
+### Common Issues
+
+1. **API Key Issues**
    - Ensure environment variables are set correctly in Vercel dashboard
    - Verify API keys are valid and have sufficient credits
+   - Check that you're using the correct API key format
 
-3. **Memory/Timeout Issues**
+2. **Memory/Timeout Issues**
    - API routes have a 30-second timeout limit
    - Large responses are streamed to avoid memory issues
 
-### Environment Variables Not Working
+### Step-by-Step Environment Variable Setup
 
-1. **Check Variable Names**
-   - Must be exactly: `MISTRAL_API_KEY` and/or `GROQ_API_KEY`
-   - Case sensitive
+1. **In Vercel Dashboard:**
+   - Go to your project
+   - Click "Settings" tab
+   - Click "Environment Variables" in the sidebar
+   - Click "Add New"
+   - Enter `MISTRAL_API_KEY` as name
+   - Enter your actual Mistral API key as value
+   - Select "Production" and "Preview" environments
+   - Click "Save"
+   - Repeat for `GROQ_API_KEY` if you have one
 
-2. **Check Environment Scope**
-   - Set for both "Production" and "Preview" environments
-   - Redeploy after adding new environment variables
+2. **Redeploy:**
+   - Go to "Deployments" tab
+   - Click "..." menu on latest deployment
+   - Click "Redeploy"
 
-### Performance Optimization
+## Performance Optimization
 
 1. **Code Splitting**: The app automatically splits code for better performance
 2. **Streaming**: API responses are streamed to handle large responses
