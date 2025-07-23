@@ -13,6 +13,10 @@ export interface ShellAction extends BaseAction {
   type: 'shell';
 }
 
-export type BoltAction = FileAction | ShellAction;
+export type ImoogleAction = FileAction | ShellAction;
 
-export type BoltActionData = BoltAction | BaseAction;
+export type ImoogleActionData = ImoogleAction | BaseAction;
+
+// Legacy aliases for backward compatibility
+export type BoltAction = ImoogleAction;
+export type BoltActionData = ImoogleActionData;

@@ -1,0 +1,12 @@
+{
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "remix",
+  "outputDirectory": "build",
+  "functions": {
+    "app/routes/api.*.ts": {
+      "maxDuration": 30
+    }
+  }
+}
