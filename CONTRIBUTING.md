@@ -31,8 +31,8 @@ deployed using [CloudFlare Pages](https://pages.cloudflare.com/) and
 ### AI SDK Integration
 
 Bolt uses the [AI SDK](https://github.com/vercel/ai) to integrate with AI
-models. At this time, Bolt supports using Anthropic's Claude Sonnet 3.5.
-You can get an API key from the [Anthropic API Console](https://console.anthropic.com/) to use with Bolt.
+models. Imoogle Build supports using Mistral and Groq as the default providers.
+You can get API keys from the [Mistral AI Console](https://console.mistral.ai/) or [Groq Console](https://console.groq.com/) to use with Imoogle Build.
 Take a look at how [Bolt uses the AI SDK](https://github.com/stackblitz/bolt.new/tree/main/app/lib/.server/llm)
 
 ## Prerequisites
@@ -56,11 +56,14 @@ git clone https://github.com/stackblitz/bolt.new.git
 pnpm install
 ```
 
-3. Create a `.env.local` file in the root directory and add your Anthropic API key:
+3. Create a `.env.local` file in the root directory and add your API keys:
 
 ```
-ANTHROPIC_API_KEY=XXX
+MISTRAL_API_KEY=your_mistral_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
+
+Note: You can use either Mistral or Groq (or both). Mistral is the primary provider with Groq as fallback.
 
 Optionally, you can set the debug level:
 
