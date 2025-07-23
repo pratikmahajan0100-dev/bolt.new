@@ -29,9 +29,9 @@ function convertToCoreMessages(messages: Messages): CoreMessage[] {
   }));
 }
 
-export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
-  const mistralApiKey = getMistralAPIKey(env);
-  const groqApiKey = getGroqAPIKey(env);
+export function streamText(messages: Messages, options?: StreamingOptions) {
+  const mistralApiKey = getMistralAPIKey();
+  const groqApiKey = getGroqAPIKey();
   
   return _streamText({
     model: getDefaultModel(mistralApiKey, groqApiKey),
