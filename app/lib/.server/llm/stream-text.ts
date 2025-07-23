@@ -1,6 +1,6 @@
-import { streamText as _streamText, convertToCoreMessages } from 'ai';
-import { getAPIKey } from '~/lib/.server/llm/api-key';
-import { getAnthropicModel } from '~/lib/.server/llm/model';
+import { streamText as _streamText, type CoreMessage } from 'ai';
+import { getMistralAPIKey, getGroqAPIKey } from '~/lib/.server/llm/api-key';
+import { getDefaultModel } from '~/lib/.server/llm/model';
 import { MAX_TOKENS } from './constants';
 import { getSystemPrompt } from './prompts';
 
@@ -9,6 +9,7 @@ interface ToolResult<Name extends string, Args, Result> {
   toolName: Name;
   args: Args;
   result: Result;
+  state: 'result';
 }
 
 interface Message {
@@ -19,17 +20,24 @@ interface Message {
 
 export type Messages = Message[];
 
-export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
+export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model' | 'messages'>;
+
+function convertToCoreMessages(messages: Messages): CoreMessage[] {
+  return messages.map(message => ({
+    role: message.role,
+    content: message.content,
+  }));
+}
 
 export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
+  const mistralApiKey = getMistralAPIKey(env);
+  const groqApiKey = getGroqAPIKey(env);
+  
   return _streamText({
-    model: getAnthropicModel(getAPIKey(env)),
+    model: getDefaultModel(mistralApiKey, groqApiKey),
     system: getSystemPrompt(),
     maxTokens: MAX_TOKENS,
-    headers: {
-      'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
-    },
     messages: convertToCoreMessages(messages),
     ...options,
-  });
+  } as any); // Type assertion to handle version compatibility
 }
