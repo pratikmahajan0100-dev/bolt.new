@@ -31,8 +31,8 @@ deployed using [CloudFlare Pages](https://pages.cloudflare.com/) and
 ### AI SDK Integration
 
 Bolt uses the [AI SDK](https://github.com/vercel/ai) to integrate with AI
-models. At this time, Bolt supports using Anthropic's Claude Sonnet 3.5.
-You can get an API key from the [Anthropic API Console](https://console.anthropic.com/) to use with Bolt.
+models. At this time, Bolt supports using Google's Gemini 2.5 Pro.
+You can get an API key from the [Google AI Studio](https://aistudio.google.com/app/apikey) to use with Bolt.
 Take a look at how [Bolt uses the AI SDK](https://github.com/stackblitz/bolt.new/tree/main/app/lib/.server/llm)
 
 ## Prerequisites
@@ -59,7 +59,7 @@ pnpm install
 3. Create a `.env.local` file in the root directory and add your Anthropic API key:
 
 ```
-ANTHROPIC_API_KEY=XXX
+GOOGLE_GENERATIVE_AI_API_KEY=XXX
 ```
 
 Optionally, you can set the debug level:
